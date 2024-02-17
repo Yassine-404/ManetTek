@@ -26,8 +26,7 @@ class Jeux
     #[ORM\Column]
     private ?int $stockj = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'Jeux')]
     #[ORM\JoinColumn(nullable: false)]

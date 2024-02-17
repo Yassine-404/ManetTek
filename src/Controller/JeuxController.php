@@ -55,7 +55,7 @@ class JeuxController extends AbstractController
             throw $this->createNotFoundException('Jeux not found');
         }
 
-        $form = $this->createForm(\JeuxType::class, $jeu);
+        $form = $this->createForm(JeuxType::class, $jeu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

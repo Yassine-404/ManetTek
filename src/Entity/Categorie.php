@@ -26,6 +26,11 @@ class Categorie
         $this->Jeux = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->Type;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
