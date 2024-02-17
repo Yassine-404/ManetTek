@@ -1,0 +1,40 @@
+{%extends "base.html.twig"  %}
+
+{% block body %}
+    <div style="display: flex; align-items: center; justify-content: center; margin-top: 80px;">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add perephirique Admin</h4>
+                <p class="card-description">
+
+                </p>
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        <label for="exampleInputUsername1">Nom</label>
+                        {{ form_widget(form.NomP,{'attr': {'class': 'form-control custom-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputprix">Prix</label>
+                        {{ form_widget(form.PrixP,{'attr': {'class': 'form-control custom-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputDes">Description</label>
+                        {{ form_widget(form.DescP,{'attr': {'class': 'form-control custom-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputstock">stock</label>
+                        {{ form_widget(form.StockP,{'attr': {'class': 'form-control custom-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputtype">Type</label>
+                        {{ form_widget(form.TypeP, {'attr': {'class': 'form-control custom-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                    <button class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-info mt-2 text-white" onclick="window.history.back()">Back</button>
+                {{ form_end(form) }}
+                    </div>
+        </div>
+    </div>
+
+{% endblock %}

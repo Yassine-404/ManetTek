@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+    <div class="row" style="display: flex; align-items: center; justify-content: center;margin-top: 100px;">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Liste des jeux</h4>
+                <p class="card-description">
+
+                </p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for data in jeux  %}
+                            <tr>
+                                <th scope="row">{{ data.id }}</th>
+                                <td>{{ data.Nomj }}</td>
+                                <td>{{ data.prixj }}</td>
+                                <td>{{ data.descj }}</td>
+                                <td>{{ data.stockj }}</td>
+                                <td>{{ data.type }}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{ path('jeux_create', {'id': data.id}) }}">Add</a>
+                                    <a class="btn btn-warning" href="{{ path('jeux_update',{'id': data.id }) }}">Update</a>
+                                    <a class="btn btn-danger" href="{{ path('jeux_delete',{'id': data.id }) }}">Delete</a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
