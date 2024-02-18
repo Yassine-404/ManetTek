@@ -6,6 +6,7 @@ use App\Entity\Categorie;
 use App\Entity\Projectweb;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +22,12 @@ class ProduitType extends AbstractType
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'type'
+            ])
+            ->add('photo', FileType::class, [
+                'label' => 'Image',
+                'required' => false,
+                'mapped' => false,
+                'attr' => ['class' => 'form-control custom-input'],
             ])
         ;
     }

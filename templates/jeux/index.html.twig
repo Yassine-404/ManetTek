@@ -11,6 +11,8 @@
 
                 </p>
                 <div class="table-responsive">
+                    <a class="btn btn-primary float-right " href="{{ path('store-jeux') }}">store</a>
+                    <a class="btn btn-primary float-right mb-2" href="{{ path('jeux_create') }}">Add</a>
                     <table class="table">
                         <thead>
                         <tr>
@@ -20,6 +22,7 @@
                             <th scope="col">Description</th>
                             <th scope="col">Stock</th>
                             <th scope="col">Categorie</th>
+                            <th scope="col">Image</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -32,16 +35,18 @@
                                 <td>{{ data.descj }}</td>
                                 <td>{{ data.stockj }}</td>
                                 <td>{{ data.categorie }}</td>
+                                <td> <img style="width: 50px; heigth : 50px;" src="{{ asset('assets/images/' ~ data.imagej) }}" > </td>
+
                                 <td>
-                                    <a class="btn btn-primary" href="{{ path('jeux_create', {'id': data.id}) }}">Add</a>
+
                                     <a class="btn btn-warning" href="{{ path('jeux_update',{'id': data.id }) }}">Update</a>
                                     <a class="btn btn-danger" href="{{ path('jeux_delete',{'id': data.id }) }}">Delete</a>
 
                                 </td>
 
                             </tr>
-
                         {% endfor %}
+
 
                         </tbody>
                     </table>

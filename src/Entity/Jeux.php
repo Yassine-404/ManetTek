@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\JeuxRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: JeuxRepository::class)]
 class Jeux
 {
@@ -15,15 +15,23 @@ class Jeux
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $Nomj = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
+    #[Assert\NotBlank]
+    #[Assert\PositiveOrZero]
     private ?string $prixj = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $descj = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\PositiveOrZero]
     private ?int $stockj = null;
 
 
@@ -31,6 +39,9 @@ class Jeux
     #[ORM\ManyToOne(inversedBy: 'Jeux')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagej = null;
 
     public function getId(): ?int
     {
@@ -105,6 +116,18 @@ class Jeux
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getImagej(): ?string
+    {
+        return $this->imagej;
+    }
+
+    public function setImagej(?string $imagej): static
+    {
+        $this->imagej = $imagej;
 
         return $this;
     }

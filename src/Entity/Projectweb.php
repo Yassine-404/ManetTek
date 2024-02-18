@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProjectwebRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectwebRepository::class)]
 class Projectweb
@@ -15,20 +16,31 @@ class Projectweb
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $NomP = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'numeric')]
     private ?string $PrixP = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $DescP = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     private ?int $StockP = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'Pojectweb')]
     private ?Categorie $categorie = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageP = null;
 
 
     public function getId(): ?int
@@ -92,6 +104,18 @@ class Projectweb
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getImageP(): ?string
+    {
+        return $this->imageP;
+    }
+
+    public function setImageP(?string $imageP): static
+    {
+        $this->imageP = $imageP;
 
         return $this;
     }

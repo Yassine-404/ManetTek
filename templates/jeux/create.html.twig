@@ -1,40 +1,50 @@
-{%extends "base.html.twig"  %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     <div style="display: flex; align-items: center; justify-content: center; margin-top: 80px;">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Add jeux Admin</h4>
-            <p class="card-description">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add jeux Admin</h4>
+                <p class="card-description"></p>
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Nom</label>
+                    {{ form_widget(form.Nomj, {attr: {class: 'form-control custom-input'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.Nomj, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputprix">Prix</label>
+                    {{ form_widget(form.prixj, {attr: {class: 'form-control custom-input'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.prixj, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputDes">Description</label>
+                    {{ form_widget(form.descj, {attr: {class: 'form-control custom-input'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.descj, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputstock">Stock</label>
+                    {{ form_widget(form.stockj, {attr: {class: 'form-control custom-input'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.stockj, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputtype">Categorie</label>
+                    {{ form_widget(form.categorie, {attr: {class: 'form-control custom-input'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.categorie, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputtype">Image</label>
+                    {{ form_widget(form.photo, {attr: {class: 'form-control-file'}, label_attr: {class: 'col-form-label'}}) }}
+                    {{ form_errors(form.photo , {'attr': {'class': 'text-danger'}}) }}
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary mr-2" type="submit">Submit</button>
 
-            </p>
-            {{ form_start(form) }}
-            <div class="form-group">
-                <label for="exampleInputUsername1">Nom</label>
-                {{ form_widget(form.Nomj,{'attr': {'class': 'form-control custom-input'}}) }}
-            </div>
-            <div class="form-group">
-                <label for="exampleInputprix">Prix</label>
-                {{ form_widget(form.prixj,{'attr': {'class': 'form-control custom-input'}}) }}
-            </div>
-            <div class="form-group">
-                <label for="exampleInputDes">Description</label>
-                {{ form_widget(form.descj,{'attr': {'class': 'form-control custom-input'}}) }}
-            </div>
-            <div class="form-group">
-                <label for="exampleInputstock">stock</label>
-                {{ form_widget(form.stockj,{'attr': {'class': 'form-control custom-input'}}) }}
-            </div>
-            <div class="form-group">
-                <label for="exampleInputtype">Categorie</label>
-                {{ form_widget(form.categorie, {'attr': {'class': 'form-control custom-input'}}) }}
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary mr-2">Submit</button>
-                <button class="btn btn-info mt-2 text-white" onclick="window.history.back()">Back</button>
+
+
+                </div>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
-
 {% endblock %}

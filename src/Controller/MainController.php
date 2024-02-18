@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Projectweb;
 use App\Form\ProduitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,7 +37,7 @@ class MainController extends AbstractController
     }
 
      #[Route('/create', name: 'create')]
-    public function create(EntityManagerInterface $em,Request $request): Response
+    public function create(EntityManagerInterface $em,Request $request , #[Autowire('%photo_dir%')] string $photoDir): Response
     {
       $projectweb = new Projectweb();
       $form =  $this->createForm(ProduitType::class, $projectweb);
@@ -46,6 +47,11 @@ class MainController extends AbstractController
 
 
           $em->persist($projectweb);
+          if($photo = $form['photo']->getData()){
+              $fileName = uniqid().'.'.$photo->guessExtension();
+              $photo->move($photoDir,$fileName);
+              $projectweb->setImageP($fileName);
+          }
           $em->flush();
 
           $this->addFlash('notice','submitted successfully!');
@@ -59,7 +65,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update')]
-    public function update(EntityManagerInterface $entityManager, Request $request, $id): Response
+    public function update(EntityManagerInterface $entityManager, Request $request, $id , #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $projectweb = $projectwebRepository->find($id);
@@ -69,6 +75,12 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($projectweb);
+            if($photo = $form['photo']->getData()){
+                $fileName = uniqid().'.'.$photo->guessExtension();
+                $photo->move($photoDir,$fileName);
+                $projectweb->setImageP($fileName);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('notice', 'Update successful!');

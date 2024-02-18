@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Jeux;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class JeuxController extends AbstractController
     }
 
     #[Route('/jeux/create', name: 'jeux_create')]
-    public function create(EntityManagerInterface $entityManager, Request $request): Response
+    public function create(EntityManagerInterface $entityManager, Request $request, #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $jeu = new Jeux();
         $form = $this->createForm(JeuxType::class, $jeu);
@@ -33,6 +34,12 @@ class JeuxController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($jeu);
+            if($photo = $form['photo']->getData()){
+            $fileName = uniqid().'.'.$photo->guessExtension();
+            $photo->move($photoDir,$fileName);
+                $jeu->setImagej($fileName);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('notice', 'Jeux created successfully!');
@@ -46,7 +53,7 @@ class JeuxController extends AbstractController
     }
 
     #[Route('/jeux/update/{id}', name: 'jeux_update')]
-    public function update(EntityManagerInterface $entityManager, Request $request, $id): Response
+    public function update(EntityManagerInterface $entityManager, Request $request, $id , #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
         $jeu = $jeuxRepository->find($id);
@@ -59,6 +66,11 @@ class JeuxController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($photo = $form['photo']->getData()){
+                $fileName = uniqid().'.'.$photo->guessExtension();
+                $photo->move($photoDir,$fileName);
+                $jeu->setImagej($fileName);
+            }
             $entityManager->flush();
 
             $this->addFlash('notice', 'Jeux updated successfully!');
