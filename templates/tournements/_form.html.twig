@@ -1,0 +1,11 @@
+
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{{ form_start(form) }}
+
+{{ form_row(form.nom, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
+{{ form_row(form.jeu, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
+{{ form_row(form.date ) }}
+{{ form_row(form.lieu, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
+{{ form_row(form.description, { 'attr': {'class': 'form-control required','style': 'width: 800px; height: 100px;'} }) }}
+    <button class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
