@@ -8,9 +8,6 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -------------------------------------------------------------------*/
-
-
-
     /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3853,9 +3850,6 @@ function initPluginSummernote() {
     // fix after load popovers are visible
     (0, _utility.$)('.note-popover').hide();
 }
-
-
-
 
 exports.initPluginSummernote = initPluginSummernote;
 

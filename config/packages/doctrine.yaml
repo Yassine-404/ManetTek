@@ -1,11 +1,10 @@
 doctrine:
     dbal:
-        driver: 'pdo_mysql'
-        host: 'localhost'
-        port: '3306' # Assurez-vous que le port est correct
-        dbname: 'manettek' # Nom de votre base de données
-        user: 'votre_nom_utilisateur' # Nom d'utilisateur MySQL
-        password: 'votre_mot_de_passe' # Mot de passe MySQL
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '16'
         use_savepoints: true
     orm:
         auto_generate_proxy_classes: true

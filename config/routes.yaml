@@ -1,6 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-Forum:
-    path: /forum
-    controller: App\Controller\ForumController::index
+controllers:
+    resource: ../src/Controller/
+    type: attribute
