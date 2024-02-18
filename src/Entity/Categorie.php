@@ -21,9 +21,14 @@ class Categorie
     #[ORM\OneToMany(targetEntity: Jeux::class, mappedBy: 'categorie')]
     private Collection $Jeux;
 
+    #[ORM\OneToMany(targetEntity: Projectweb::class, mappedBy: 'categorie')]
+    private Collection $Pojectweb;
+
+
     public function __construct()
     {
         $this->Jeux = new ArrayCollection();
+        $this->Pojectweb = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -72,6 +77,36 @@ class Categorie
             // set the owning side to null (unless already changed)
             if ($jeux->getCategorie() === $this) {
                 $jeux->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Projectweb>
+     */
+    public function getPojectweb(): Collection
+    {
+        return $this->Pojectweb;
+    }
+
+    public function addPojectweb(Projectweb $pojectweb): static
+    {
+        if (!$this->Pojectweb->contains($pojectweb)) {
+            $this->Pojectweb->add($pojectweb);
+            $pojectweb->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removePojectweb(Projectweb $pojectweb): static
+    {
+        if ($this->Pojectweb->removeElement($pojectweb)) {
+            // set the owning side to null (unless already changed)
+            if ($pojectweb->getCategorie() === $this) {
+                $pojectweb->setCategorie(null);
             }
         }
 

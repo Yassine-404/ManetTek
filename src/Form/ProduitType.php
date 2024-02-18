@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Categorie;
 use App\Entity\Projectweb;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +18,10 @@ class ProduitType extends AbstractType
             ->add('PrixP')
             ->add('DescP')
             ->add('StockP')
-            ->add('TypeP')
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'type'
+            ])
         ;
     }
 

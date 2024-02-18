@@ -26,8 +26,10 @@ class Projectweb
     #[ORM\Column]
     private ?int $StockP = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $TypeP = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Pojectweb')]
+    private ?Categorie $categorie = null;
+
 
     public function getId(): ?int
     {
@@ -82,15 +84,16 @@ class Projectweb
         return $this;
     }
 
-    public function getTypeP(): ?string
+    public function getCategorie(): ?Categorie
     {
-        return $this->TypeP;
+        return $this->categorie;
     }
 
-    public function setTypeP(string $TypeP): static
+    public function setCategorie(?Categorie $categorie): static
     {
-        $this->TypeP = $TypeP;
+        $this->categorie = $categorie;
 
         return $this;
     }
+
 }
