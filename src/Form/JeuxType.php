@@ -23,8 +23,7 @@ class JeuxType extends AbstractType
                 'empty_data' => '',])
             ->add('descj',TextType::class, [
                 'empty_data' => '',])
-            ->add('stockj',TextType::class, [
-                'empty_data' => '',])
+            ->add('stockj')
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'type'

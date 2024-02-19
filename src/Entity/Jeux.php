@@ -16,7 +16,7 @@ class Jeux
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\Length(max: 50)]
     private ?string $Nomj = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
