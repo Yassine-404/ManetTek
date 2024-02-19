@@ -1,44 +1,63 @@
 {%extends "base.html.twig"  %}
 
 {% block body %}
-    <div style="display: flex; align-items: center; justify-content: center; margin-top: 80px">
+    <div style="display: flex; align-items: center; justify-content: center; margin-top: 30px">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Update perephirique Admin</h4>
             <p class="card-description">
 
             </p>
-            {{ form_start(form) }}
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
             <div class="form-group">
                 <label for="exampleInputUsername1">Nom</label>
-                {{ form_widget(form.NomP,{'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_widget(form.NomP, {'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_errors(form.NomP, {'attr': {'class': 'text-danger'}}) }}
             </div>
             <div class="form-group">
                 <label for="exampleInputprix">Prix</label>
-                {{ form_widget(form.PrixP,{'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_widget(form.PrixP, {'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_errors(form.PrixP, {'attr': {'class': 'text-danger'}}) }}
             </div>
             <div class="form-group">
                 <label for="exampleInputDes">Description</label>
-                {{ form_widget(form.DescP,{'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_widget(form.DescP, {'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_errors(form.DescP, {'attr': {'class': 'text-danger'}}) }}
             </div>
             <div class="form-group">
                 <label for="exampleInputstock">stock</label>
-                {{ form_widget(form.StockP,{'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_widget(form.StockP, {'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_errors(form.StockP, {'attr': {'class': 'text-danger'}}) }}
             </div>
             <div class="form-group">
                 <label for="exampleInputtype">Categorie</label>
                 {{ form_widget(form.categorie, {'attr': {'class': 'form-control custom-input'}}) }}
+                {{ form_errors(form.categorie) }}
             </div>
             <div class="form-group">
                 <label for="exampleInputtype">Image</label>
-                {{ form_widget(form.photo) }}
+                <div class="custom-file">
+                    {{ form_widget(form.photo, {attr: {class: 'custom-file-input'}, label_attr: {class: 'custom-file-label'}, 'data-browse': 'Browse'}) }}
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    {{ form_errors(form.photo) }}
+                </div>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary mr-2">Submit</button>
-                <button class="btn btn-info mt-2 text-white" onclick="window.history.back()">Back</button>
+                <a href="{{ path('app_main') }}" class="btn btn-info mt-2 text-white">Go to back</a>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[type="file"]').change(function(e) {
+                var fileName = e.target.files[0].name;
+                $(this).closest('.form-group').find('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
 
 {% endblock %}

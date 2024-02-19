@@ -191,7 +191,7 @@
             <div class="nk-nav-table">
 
                 <a href="index.html" class="nk-nav-logo">
-                    <img src="{{asset("assets/images/logo.png")}}" alt="GoodGames" width="199">
+                    <img src="{{asset("assets/images/logo1.png")}}" alt="GoodGames" width="199">
                 </a>
 
                 <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
@@ -356,15 +356,15 @@
 
                                 </a>
                             </li>
-                            <li class="active">
-                                <a href="store-catalog.html">
-                                    Catalog
+                            <li  class="active">
+                                <a href="{{ path('store') }}">
+                                    Catalog péréphiriques
 
                                 </a>
                             </li>
                             <li>
-                                <a href="store-catalog-alt.html">
-                                    Catalog Alt
+                                <a href="{{ path('store-jeux') }}">
+                                    Catalog Jeux
 
                                 </a>
                             </li>
@@ -446,12 +446,12 @@ Additional Classes:
 
             <li><span class="fa fa-angle-right"></span></li>
 
-            <li><a href="store.html">Store</a></li>
+            <li><a href="store">péréphiriques</a></li>
 
 
             <li><span class="fa fa-angle-right"></span></li>
 
-            <li><span>Action Games</span></li>
+            <li><span>péréphirique</span></li>
 
         </ul>
     </div>
@@ -538,7 +538,7 @@ Additional Classes:
                     </div>
                     <div class="nk-feature-cont">
                         <h3 class="nk-feature-title"><a href="#">PC</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View Games</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
                     </div>
                 </div>
             </div>
@@ -549,7 +549,7 @@ Additional Classes:
                     </div>
                     <div class="nk-feature-cont">
                         <h3 class="nk-feature-title"><a href="#">PS4</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View Games</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
                     </div>
                 </div>
             </div>
@@ -560,7 +560,7 @@ Additional Classes:
                     </div>
                     <div class="nk-feature-cont">
                         <h3 class="nk-feature-title"><a href="#">Xbox</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View Games</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
                     </div>
                 </div>
             </div>
@@ -582,9 +582,9 @@ Additional Classes:
                                 <div class="nk-product-cont">
                                     <h3 class="nk-product-title h5"><a href="#">{{ data.NomP }}</a></h3>
                                     <div class="nk-gap-1">{{ data.categorie }}</div>
-                                    <div class="nk-product-rating" data-rating="4">
-                                        <i class="far fa-star"></i>
-                                    </div>
+                                    <div class="nk-product-rating"> {{ data.StockP }} pieces
+
+                                      </div>
                                     <div class="nk-gap-1"></div>
                                     <div class="nk-product-price">€ {{ data.PrixP }}</div>
                                     <div class="nk-gap-1"></div>

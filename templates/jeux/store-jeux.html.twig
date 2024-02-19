@@ -191,7 +191,7 @@
             <div class="nk-nav-table">
 
                 <a href="index.html" class="nk-nav-logo">
-                    <img src="{{asset("assets/images/logo.png")}}" alt="GoodGames" width="199">
+                    <img src="{{asset("assets/images/logo1.png")}}" alt="GoodGames" width="199">
                 </a>
 
                 <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
@@ -339,38 +339,32 @@
                         </ul>
                     </li>
                     <li class="active nk-drop-item">
-                        <a href="store.html">
+                        <a href="store-jeux">
                             Store
 
                         </a><ul class="dropdown">
 
                             <li>
                                 <a href="store.html">
-                                    Store
+                                    coming soon
 
                                 </a>
                             </li>
                             <li>
-                                <a href="store-product.html">
-                                    Product
+                                <a href="{{ path('store') }}">
+                                    Catalog péréphirique
 
                                 </a>
                             </li>
-                            <li class="active">
-                                <a href="store-catalog.html">
-                                    Catalog
-
-                                </a>
-                            </li>
-                            <li>
-                                <a href="store-catalog-alt.html">
-                                    Catalog Alt
+                            <li  class="active">
+                                <a href="{{ path('store-jeux') }}">
+                                    Catalog Jeux
 
                                 </a>
                             </li>
                             <li>
                                 <a href="store-checkout.html">
-                                    Checkout
+                                    coming soon
 
                                 </a>
                             </li>
@@ -446,7 +440,7 @@ Additional Classes:
 
             <li><span class="fa fa-angle-right"></span></li>
 
-            <li><a href="store.html">Store</a></li>
+            <li><a href="store-jeux">Jeux</a></li>
 
 
             <li><span class="fa fa-angle-right"></span></li>
@@ -582,8 +576,8 @@ Additional Classes:
                                 <div class="nk-product-cont">
                                     <h3 class="nk-product-title h5"><a href="#">{{ data.Nomj }}</a></h3>
                                     <div class="nk-gap-1">{{ data.categorie }}</div>
-                                    <div class="nk-product-rating" data-rating="4">
-                                        <i class="far fa-star"></i>
+                                    <div class="nk-product-rating"> {{ data.stockj }} pieces
+
                                     </div>
                                     <div class="nk-gap-1"></div>
                                     <div class="nk-product-price">€ {{ data.prixj }}</div>

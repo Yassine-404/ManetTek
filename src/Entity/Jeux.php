@@ -21,7 +21,7 @@ class Jeux
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     #[Assert\NotBlank]
-    #[Assert\PositiveOrZero]
+    #[Assert\Type(type: 'numeric')]
     private ?string $prixj = null;
 
     #[ORM\Column(length: 255)]

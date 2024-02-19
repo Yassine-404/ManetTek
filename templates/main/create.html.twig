@@ -34,15 +34,28 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputtype">Image</label>
-                    {{ form_widget(form.photo) }}
+                    <div class="custom-file">
+                        {{ form_widget(form.photo, {attr: {class: 'custom-file-input'}, label_attr: {class: 'custom-file-label'}, 'data-browse': 'Browse'}) }}
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
                     {{ form_errors(form.photo) }}
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-info mt-2 text-white" onclick="window.history.back()">Back</button>
+                    <a href="{{ path('app_main') }}" class="btn btn-info mt-2 text-white">Go to back</a>
+
                 </div>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[type="file"]').change(function(e) {
+                var fileName = e.target.files[0].name;
+                $(this).closest('.form-group').find('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
 {% endblock %}
