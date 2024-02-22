@@ -534,11 +534,11 @@ Additional Classes:
             <div class="col-lg-4">
                 <div class="nk-feature-1">
                     <div class="nk-feature-icon">
-                        <img src="{{asset("assets/images/icon-mouse.png")}}" alt="">
+                        <img src="{{ asset('assets/images/icon-mouse.png') }}" alt="">
                     </div>
                     <div class="nk-feature-cont">
-                        <h3 class="nk-feature-title"><a href="#">PC</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
+                        <h3 class="nk-feature-title"><a href="{{ path('pc_peripherals', { 'categorie': 'PC' }) }}">PC</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="{{ path('pc_peripherals', { 'categorie': 'PC' }) }}">View</a></h3>
                     </div>
                 </div>
             </div>
@@ -548,8 +548,8 @@ Additional Classes:
                         <img src="{{asset("assets/images/icon-gamepad.png")}}" alt="">
                     </div>
                     <div class="nk-feature-cont">
-                        <h3 class="nk-feature-title"><a href="#">PS4</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
+                        <h3 class="nk-feature-title"><a href="{{ path('ps_peripherals', {'categorie': 'PS'}) }}">PS</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="{{ path('ps_peripherals', {'categorie': 'PS'}) }}">View</a></h3>
                     </div>
                 </div>
             </div>
@@ -559,11 +559,26 @@ Additional Classes:
                         <img src="{{asset("assets/images/icon-gamepad-2.png")}}" alt="">
                     </div>
                     <div class="nk-feature-cont">
-                        <h3 class="nk-feature-title"><a href="#">Xbox</a></h3>
-                        <h3 class="nk-feature-title text-main-1"><a href="#">View</a></h3>
+                        <h3 class="nk-feature-title"><a href="{{ path('xbox_peripherals', {'categorie': 'Xbox'}) }}">Xbox</a></h3>
+                        <h3 class="nk-feature-title text-main-1"><a href="{{ path('xbox_peripherals', {'categorie': 'Xbox'}) }}">View</a></h3>
                     </div>
                 </div>
             </div>
+
+
+            <div class="col-lg-4">
+                <div class="nk-feature-1">
+                    <div class="nk-feature-icon">
+                        <!-- Add your icon for all peripherals here -->
+                    </div>
+                    <div class="nk-feature-cont">
+                        <h3 class="nk-feature-title"><a href="{{ path('all_peripherals') }}">Back to all</a></h3>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
         <!-- END: Categories -->
 
@@ -628,17 +643,22 @@ Additional Classes:
                         .nk-sidebar-right
                         .nk-sidebar-sticky
                 -->
-                <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+                <aside class="nk-sidebar nk-sidebar-right ">
                     <div class="nk-widget">
                         <div class="nk-widget-content">
-                            <form action="#" class="nk-form nk-form-style-1" novalidate="novalidate">
+                            <form id="searchForm" action="{{ path('search') }}" method="get" class="nk-form nk-form-style-1" novalidate="novalidate">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Type something...">
-                                    <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+                                    <input id="keywordInput" type="text" name="keyword" class="form-control" placeholder="Type something..." value="{{ app.request.query.get('keyword', '') }}">
+                                    <button type="submit" class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
                                 </div>
                             </form>
+                            {% if noResults %}
+                                <p>No peripherals found.</p>
+
+                            {% endif %}
                         </div>
                     </div>
+
                     <div class="nk-widget nk-widget-highlighted">
                         <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
                         <div class="nk-widget-content">
@@ -1072,7 +1092,32 @@ Additional Classes:
 <script src="{{asset("assets/js/goodgames.min.js")}}"></script>
 <script src="{{asset("assets/js/goodgames-init.js")}}"></script>
 <!-- END: Scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('searchForm');
+        const keywordInput = document.getElementById('keywordInput');
 
+        keywordInput.addEventListener('input', function () {
+            if (!keywordInput.value.trim()) {
+                form.submit();
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('searchForm');
+        var input = document.getElementById('keywordInput');
+        var timeout;
+
+        input.addEventListener('input', function() {
+            clearTimeout(timeout); // Clear the previous timeout
+            timeout = setTimeout(function() {
+                form.submit(); // Submit the form after a delay
+            }, 1000); // Adjust the delay as needed (500 milliseconds in this example)
+        });
+    });
+</script>
 
 
 </body>

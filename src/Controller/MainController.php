@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Projectweb;
 use App\Form\ProduitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -114,9 +115,115 @@ class MainController extends AbstractController
 
         return $this->render('main/store.html.twig', [
             'list' => $data,
+            'noResults' => empty($data),
             'controller_name' => 'MainController',
         ]);
     }
+    #[Route('/search', name: 'search')]
+    public function search(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $keyword = $request->query->get('keyword');
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+
+        // Fetch peripherals based on the search keyword
+        if (!empty($keyword)) {
+            $data = $projectwebRepository->findByKeyword($keyword);
+        } else {
+            $data = $projectwebRepository->findAll(); // Fetch all peripherals
+        }
+
+        // Check if any peripherals were found
+        $noResults = empty($data);
+
+
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'controller_name' => 'MainController',
+            'noResults' => empty($data), // Pass the noResults variable to the template
+            'keyword' => $keyword ?? '', // Pass the keyword variable to the template
+        ]);
+    }
+    #[Route('/pc-peripherals', name: 'pc_peripherals')]
+    public function pcPeripherals(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $categorieName = $request->query->get('categorie');
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category PC not found.');
+        }
+
+        // Find peripherals with category 'PC'
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findBycategorie($categorie);
+
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'noResults' => empty($data),
+            'controller_name' => 'MainController',
+        ]);
+    }
+    #[Route('/ps-peripherals', name: 'ps_peripherals')]
+    public function psPeripherals(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $categorieName = 'PS'; // Set the category name
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category PS not found.');
+        }
+
+        // Find peripherals with category 'PS'
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findBycategorie($categorie);
+
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'noResults' => empty($data),
+            'controller_name' => 'MainController',
+        ]);
+    }
+
+    #[Route('/xbox-peripherals', name: 'xbox_peripherals')]
+    public function xboxPeripherals(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $categorieName = 'Xbox'; // Set the category name
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category Xbox not found.');
+        }
+
+        // Find peripherals with category 'Xbox'
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findBycategorie($categorie);
+
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'noResults' => empty($data),
+            'controller_name' => 'MainController',
+        ]);
+    }
+    #[Route('/all-peripherals', name: 'all_peripherals')]
+    public function allPeripherals(EntityManagerInterface $entityManager): Response
+    {
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findAll();
+
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'noResults' => empty($data),
+            'controller_name' => 'MainController',
+        ]);
+    }
+
+
+
+
+
+
+
+
 
 
 }

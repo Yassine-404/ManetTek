@@ -45,4 +45,23 @@ class ProjectwebRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByKeyword($keyword)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.NomP LIKE :keyword')
+            ->setParameter('keyword', '%'.$keyword.'%')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findBycategorie(\App\Entity\Categorie $categorie): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
 }

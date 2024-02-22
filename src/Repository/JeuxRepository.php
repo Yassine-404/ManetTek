@@ -45,4 +45,32 @@ class JeuxRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findBycategorie(\App\Entity\Categorie $categorie): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByKeyword(string $keyword): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Nomj LIKE :keyword')
+            ->setParameter('keyword', '%'.$keyword.'%')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByPriceRange($minPrice, $maxPrice)
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.prixj BETWEEN :minPrice AND :maxPrice')
+            ->setParameter('minPrice', $minPrice)
+            ->setParameter('maxPrice', $maxPrice)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
 }

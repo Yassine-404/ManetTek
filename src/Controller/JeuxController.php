@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Jeux;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -109,7 +110,125 @@ class JeuxController extends AbstractController
 
         return $this->render('jeux/store-jeux.html.twig', [
             'list' => $jeux,
+            'noResults' => empty($data),
             'controller_name' => 'MainController',
+
         ]);
     }
+    #[Route('/Search', name: 'search_jeux')]
+    public function searchJeux(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $keyword = $request->query->get('keyword');
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+
+        // Fetch Jeux based on the search keyword
+        if (!empty($keyword)) {
+            $jeux = $jeuxRepository->findByKeyword($keyword);
+        } else {
+            $jeux = $jeuxRepository->findAll(); // Fetch all Jeux
+        }
+
+        // Check if any Jeux were found
+        $noResults = empty($jeux);
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'controller_name' => 'JeuxController',
+            'noResults' => empty($data), // Pass the noResults variable to the template
+            'keyword' => $keyword ?? '', // Pass the keyword variable to the template
+        ]);
+    }
+    #[Route('/jeux/pc', name: 'jeux_pc')]
+    public function pcGames(EntityManagerInterface $entityManager): Response
+    {
+        $categorieName = 'PC';
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category PC not found.');
+        }
+
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findBy(['categorie' => $categorie]);
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'noResults' => empty($data),
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+
+    #[Route('/jeux/ps4', name: 'jeux_ps4')]
+    public function ps4Games(EntityManagerInterface $entityManager): Response
+    {
+        $categorieName = 'PS';
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category PS4 not found.');
+        }
+
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findBy(['categorie' => $categorie]);
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'noResults' => empty($data),
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+
+    #[Route('/jeux/xbox', name: 'jeux_xbox')]
+    public function xboxGames(EntityManagerInterface $entityManager): Response
+    {
+        $categorieName = 'Xbox';
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Category Xbox not found.');
+        }
+
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findBy(['categorie' => $categorie]);
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'noResults' => empty($data),
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+    #[Route('/all-jeux', name: 'all_jeux')]
+    public function allJeux(EntityManagerInterface $entityManager): Response
+    {
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findAll();
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'noResults' => empty($data),
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+    #[Route('/search-prix', name: 'search_prix')]
+    public function searchPrix(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Get the price range from the request
+        $minPrice = $request->query->get('minPrice', 0);
+        $maxPrice = $request->query->get('maxPrice', 0);
+
+        // Query the database for jeux within the price range
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findByPriceRange($minPrice, $maxPrice);
+
+        return $this->render('jeux/store-jeux.html.twig', [
+            'list' => $jeux,
+            'noResults' => empty($jeux), // Check if any jeux were found
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+
+
+
+
+
 }
