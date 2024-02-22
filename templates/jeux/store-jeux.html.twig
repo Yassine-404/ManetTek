@@ -672,7 +672,6 @@ Additional Classes:
                             <div class="nk-widget-content">
                                 <div class="nk-input-slider">
                                     <div id="price-slider" class="slider slider-horizontal"></div>
-                                    <input id="price-filter" type="text" name="price-filter" data-slider-min="10" data-slider-max="1200" data-slider-step="1" data-slider-value="[10, 1200]" data-slider-tooltip="hide" data-value="10,1200" value="10,1200" style="display: none;">
                                     <div class="nk-gap"></div>
                                     <div>
                                         <div class="text-white mt-4 float-left">
@@ -687,9 +686,6 @@ Additional Classes:
                                 </div>
                             </div>
                         </div>
-
-
-
 
                         <div class="nk-widget nk-widget-highlighted">
                         <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
@@ -1124,8 +1120,8 @@ Additional Classes:
     $(document).ready(function() {
         $("#price-slider").slider({
             range: true,
-            min: 0,
-            max: 1800,
+            min: 10,
+            max: 1200,
             step: 1,
             values: [10, 1200],
             slide: function(event, ui) {
@@ -1145,16 +1141,9 @@ Additional Classes:
             var maxPrice = $("#price-slider").slider("values", 1);
             window.location.href = "{{ path('search_prix') }}?minPrice=" + minPrice + "&maxPrice=" + maxPrice;
         });
-
-        $('#price-filter').slider({
-            tooltip: 'hide',
-            formatter: function(value) {
-                $('#slider-value').text(value);
-                return '€ ' + value;
-            }
-        });
     });
 </script>
+
 
 
 

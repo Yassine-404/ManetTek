@@ -125,22 +125,20 @@ class MainController extends AbstractController
         $keyword = $request->query->get('keyword');
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
 
-        // Fetch peripherals based on the search keyword
+
         if (!empty($keyword)) {
             $data = $projectwebRepository->findByKeyword($keyword);
         } else {
-            $data = $projectwebRepository->findAll(); // Fetch all peripherals
+            $data = $projectwebRepository->findAll();
         }
-
-        // Check if any peripherals were found
         $noResults = empty($data);
 
 
         return $this->render('main/store.html.twig', [
             'list' => $data,
             'controller_name' => 'MainController',
-            'noResults' => empty($data), // Pass the noResults variable to the template
-            'keyword' => $keyword ?? '', // Pass the keyword variable to the template
+            'noResults' => empty($data),
+            'keyword' => $keyword ?? '',
         ]);
     }
     #[Route('/pc-peripherals', name: 'pc_peripherals')]
@@ -153,7 +151,7 @@ class MainController extends AbstractController
             throw $this->createNotFoundException('Category PC not found.');
         }
 
-        // Find peripherals with category 'PC'
+
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $data = $projectwebRepository->findBycategorie($categorie);
 
@@ -166,14 +164,14 @@ class MainController extends AbstractController
     #[Route('/ps-peripherals', name: 'ps_peripherals')]
     public function psPeripherals(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $categorieName = 'PS'; // Set the category name
+        $categorieName = 'PS';
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
 
         if (!$categorie) {
             throw $this->createNotFoundException('Category PS not found.');
         }
 
-        // Find peripherals with category 'PS'
+
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $data = $projectwebRepository->findBycategorie($categorie);
 
@@ -187,14 +185,13 @@ class MainController extends AbstractController
     #[Route('/xbox-peripherals', name: 'xbox_peripherals')]
     public function xboxPeripherals(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $categorieName = 'Xbox'; // Set the category name
+        $categorieName = 'Xbox';
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['Type' => $categorieName]);
 
         if (!$categorie) {
             throw $this->createNotFoundException('Category Xbox not found.');
         }
 
-        // Find peripherals with category 'Xbox'
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $data = $projectwebRepository->findBycategorie($categorie);
 
@@ -217,10 +214,21 @@ class MainController extends AbstractController
         ]);
     }
 
+        #[Route('/search-prixp', name: 'search_prixp')]
+     public function searchPrixp(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $minPrice = $request->query->get('minPrice', 0);
+        $maxPrice = $request->query->get('maxPrice', 0);
 
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findByPriceRange($minPrice, $maxPrice);
 
-
-
+        return $this->render('main/store.html.twig', [
+            'list' => $data,
+            'noResults' => empty($data), // Check if any projects were found
+            'controller_name' => 'ProjectwebController',
+        ]);
+    }
 
 
 

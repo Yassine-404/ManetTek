@@ -61,6 +61,15 @@ class ProjectwebRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByPriceRange($minPrice, $maxPrice)
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.PrixP BETWEEN :minPrice AND :maxPrice')
+            ->setParameter('minPrice', $minPrice)
+            ->setParameter('maxPrice', $maxPrice)
+            ->getQuery()
+            ->getResult();
+    }
 
 
 

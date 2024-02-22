@@ -121,21 +121,18 @@ class JeuxController extends AbstractController
         $keyword = $request->query->get('keyword');
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
 
-        // Fetch Jeux based on the search keyword
         if (!empty($keyword)) {
             $jeux = $jeuxRepository->findByKeyword($keyword);
         } else {
-            $jeux = $jeuxRepository->findAll(); // Fetch all Jeux
+            $jeux = $jeuxRepository->findAll();
         }
-
-        // Check if any Jeux were found
         $noResults = empty($jeux);
 
         return $this->render('jeux/store-jeux.html.twig', [
             'list' => $jeux,
             'controller_name' => 'JeuxController',
-            'noResults' => empty($data), // Pass the noResults variable to the template
-            'keyword' => $keyword ?? '', // Pass the keyword variable to the template
+            'noResults' => empty($data),
+            'keyword' => $keyword ?? '',
         ]);
     }
     #[Route('/jeux/pc', name: 'jeux_pc')]
@@ -212,11 +209,10 @@ class JeuxController extends AbstractController
     #[Route('/search-prix', name: 'search_prix')]
     public function searchPrix(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Get the price range from the request
         $minPrice = $request->query->get('minPrice', 0);
         $maxPrice = $request->query->get('maxPrice', 0);
 
-        // Query the database for jeux within the price range
+
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
         $jeux = $jeuxRepository->findByPriceRange($minPrice, $maxPrice);
 
@@ -226,9 +222,5 @@ class JeuxController extends AbstractController
             'controller_name' => 'JeuxController',
         ]);
     }
-
-
-
-
 
 }
