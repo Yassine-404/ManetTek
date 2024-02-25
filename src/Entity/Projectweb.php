@@ -42,6 +42,12 @@
         #[ORM\Column(length: 255, nullable: true)]
         private ?string $imageP = null;
 
+        #[ORM\Column]
+        private ?int $TotalRating = null;
+
+        #[ORM\Column]
+        private ?float $averageRating = null;
+
 
         public function getId(): ?int
         {
@@ -119,5 +125,30 @@
 
             return $this;
         }
+
+        public function getTotalRating(): ?int
+        {
+            return $this->TotalRating;
+        }
+
+        public function setTotalRating(int $TotalRating): static
+        {
+            $this->TotalRating = $TotalRating;
+
+            return $this;
+        }
+
+        public function getAverageRating(): ?float
+        {
+            return $this->averageRating;
+        }
+
+        public function setAverageRating(float $averageRating): static
+        {
+            $this->averageRating = $averageRating;
+
+            return $this;
+        }
+
 
     }

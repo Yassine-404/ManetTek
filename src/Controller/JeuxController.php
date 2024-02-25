@@ -6,8 +6,10 @@ use App\Entity\Categorie;
 use App\Entity\Jeux;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\JeuxType;
@@ -218,9 +220,86 @@ class JeuxController extends AbstractController
 
         return $this->render('jeux/store-jeux.html.twig', [
             'list' => $jeux,
-            'noResults' => empty($jeux), // Check if any jeux were found
+            'noResults' => empty($jeux),
             'controller_name' => 'JeuxController',
         ]);
     }
+    #[Route('/add-to-cart-jeux/{id}', name: 'add_to_cart_jeux')]
+    public function addJeuxToCart($id, SessionInterface $session, EntityManagerInterface $entityManager): Response
+    {
+        $cart = $session->get('cart_jeux', []);
+        $quantityToAdd = 1;
+
+        if (isset($cart[$id])) {
+            $quantityToAdd = $cart[$id] + 1;
+        }
+
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->find($id);
+
+        if ($jeux && $jeux->getstockj() >= $quantityToAdd) {
+            $cart[$id] = $quantityToAdd;
+            $session->set('cart_jeux', $cart);
+            $this->addFlash('success', 'Item added to cart successfully.');
+        } else {
+            $this->addFlash('error', 'Failed to add item to cart. Not enough stock.');
+        }
+
+        return $this->redirectToRoute('cart_jeux');
+    }
+
+    #[Route('/remove-from-cart-jeux/{id}', name: 'remove_from_cart_jeux')]
+    public function removeFromCartJeux($id, SessionInterface $session): Response
+    {
+        $cart = $session->get('cart_jeux', []);
+
+        unset($cart[$id]);
+
+        $session->set('cart_jeux', $cart);
+
+        return $this->redirectToRoute('cart_jeux');
+    }
+
+    #[Route('/update-cart-item-jeux/{id}', name: 'update_cart_item_jeux', methods: ['POST'])]
+    public function updateCartItemJeux($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $quantity = $request->request->get('quantity');
+        $cart = $session->get('cart_jeux', []);
+        $cart[$id] = $quantity;
+        $session->set('cart_jeux', $cart);
+
+        $product = $entityManager->getRepository(Jeux::class)->find($id);
+        $total = $product ? $product->getprixj() * $quantity : 0;
+
+        return new JsonResponse(['total' => $total]);
+    }
+    #[Route('/cart-jeux', name: 'cart_jeux')]
+    public function cart(SessionInterface $session, EntityManagerInterface $entityManager): Response
+    {
+        $cart = $session->get('cart_jeux', []);
+
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $cartItems = [];
+
+        foreach ($cart as $id => $quantity) {
+            $jeux = $jeuxRepository->find($id);
+
+            if ($jeux) {
+                $cartItems[] = [
+                    'jeux' => $jeux,
+                    'quantity' => $quantity,
+                    'total' => $jeux->getprixj() * $quantity,
+                ];
+            }
+        }
+
+        return $this->render('cart/cart.jeux.html.twig', [
+            'cartItems' => $cartItems,
+        ]);
+    }
+
+
+
+
 
 }
