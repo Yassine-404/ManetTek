@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\JeuxType;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class JeuxController extends AbstractController
 {
@@ -23,6 +25,17 @@ class JeuxController extends AbstractController
         $jeux = $jeuxRepository->findAll();
 
         return $this->render('jeux/index.html.twig', [
+            'jeux' => $jeux,
+            'controller_name' => 'JeuxController',
+        ]);
+    }
+    #[Route('/jeux/Home', name: 'Home_display')]
+    public function Home(EntityManagerInterface $entityManager): Response
+    {
+        $jeuxRepository = $entityManager->getRepository(Jeux::class);
+        $jeux = $jeuxRepository->findAll();
+
+        return $this->render('Home/Home.html.twig', [
             'jeux' => $jeux,
             'controller_name' => 'JeuxController',
         ]);
@@ -297,6 +310,35 @@ class JeuxController extends AbstractController
             'cartItems' => $cartItems,
         ]);
     }
+    #[Route('/rate-jeux/{id}', name: 'rate_jeux')]
+    public function rateJeux(Jeux $jeux, Request $request, EntityManagerInterface $entityManager, CsrfTokenManagerInterface $csrfTokenManager): Response
+    {
+        $submittedToken = $request->request->get('_token');
+
+        if (!$csrfTokenManager->isTokenValid(new CsrfToken('token_id', $submittedToken))) {
+            throw new \Exception('Invalid CSRF token');
+        }
+
+        $rating = $request->request->get('rating');
+
+        if (!is_numeric($rating) || $rating < 1 || $rating > 5) {
+            // Handle invalid rating
+            // You might want to redirect back to the previous page with an error message
+            return $this->redirectToRoute('previous_route_name');
+        }
+
+
+        $jeux->setTotalRating($jeux->getTotalRating() + 1);
+        $jeux->setAverageRating(
+            ($jeux->getAverageRating() * ($jeux->getTotalRating() - 1) + $rating) / $jeux->getTotalRating()
+        );
+
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('product_details_jeux', ['id' => $jeux->getId()]);
+    }
+
 
 
 

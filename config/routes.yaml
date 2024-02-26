@@ -7,3 +7,8 @@ product_details:
     path: /store
     controller: App\Controller\MainController::productDetails
     methods: GET
+
+product_details_jeux:
+    path: /jeux/store-jeux
+    controller: App\Controller\JeuxController::productDetailsjeux
+    methods: GET

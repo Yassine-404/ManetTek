@@ -41,6 +41,17 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+    #[Route('/Home', name: 'display_home')]
+    public function Home(EntityManagerInterface $entityManager): Response
+    {
+        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
+        $data = $projectwebRepository->findAll();
+
+        return $this->render('Home/Home.html.twig', [
+            'list' => $data,
+            'controller_name' => 'MainController',
+        ]);
+    }
 
      #[Route('/create', name: 'create')]
     public function create(EntityManagerInterface $em,Request $request , #[Autowire('%photo_dir%')] string $photoDir): Response
@@ -311,6 +322,7 @@ class MainController extends AbstractController
 
         return $this->render('cart/cart.html.twig', [
             'cartItems' => $cartItems,
+
         ]);
     }
 
