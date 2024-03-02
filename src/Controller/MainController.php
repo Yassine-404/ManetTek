@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 class MainController extends AbstractController
@@ -141,22 +142,21 @@ class MainController extends AbstractController
         $keyword = $request->query->get('keyword');
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
 
-
         if (!empty($keyword)) {
             $data = $projectwebRepository->findByKeyword($keyword);
         } else {
             $data = $projectwebRepository->findAll();
         }
-        $noResults = empty($data);
-
 
         return $this->render('main/store.html.twig', [
             'list' => $data,
-            'controller_name' => 'MainController',
             'noResults' => empty($data),
             'keyword' => $keyword ?? '',
         ]);
     }
+
+
+
     #[Route('/pc-peripherals', name: 'pc_peripherals')]
     public function pcPeripherals(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -244,58 +244,6 @@ class MainController extends AbstractController
             'noResults' => empty($data), //
             'controller_name' => 'ProjectwebController',
         ]);
-    }
-    #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
-    public function addToCart($id, SessionInterface $session, EntityManagerInterface $entityManager): Response
-    {
-        $cart = $session->get('cart', []);
-        $quantityToAdd = 1;
-
-
-        if (isset($cart[$id])) {
-            $quantityToAdd = $cart[$id] + 1;
-        }
-
-
-        $projectwebRepository = $entityManager->getRepository(Projectweb::class);
-        $projectweb = $projectwebRepository->find($id);
-
-        if ($projectweb && $projectweb->getStockP() >= $quantityToAdd) {
-            $cart[$id] = $quantityToAdd;
-            $session->set('cart', $cart);
-            $this->addFlash('success', 'Item added to cart successfully.');
-        } else {
-            $this->addFlash('error', 'Failed to add item to cart. Not enough stock.');
-        }
-
-        return $this->redirectToRoute('cart');
-    }
-
-    #[Route('/remove-from-cart/{id}', name: 'remove_from_cart')]
-    public function removeFromCart($id, SessionInterface $session): Response
-    {
-        $cart = $session->get('cart', []);
-
-
-        unset($cart[$id]);
-
-        $session->set('cart', $cart);
-
-        return $this->redirectToRoute('cart');
-    }
-    #[Route('/update-cart-item/{id}', name: 'update_cart_item', methods: ['POST'])]
-    public function updateCartItem($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): JsonResponse
-    {
-        $quantity = $request->request->get('quantity');
-        $cart = $session->get('cart', []);
-        $cart[$id] = $quantity;
-        $session->set('cart', $cart);
-
-
-        $product = $entityManager->getRepository(Projectweb::class)->find($id);
-        $total = $product ? $product->getPrixP() * $quantity : 0;
-
-        return new JsonResponse(['total' => $total]);
     }
 
     #[Route('/cart', name: 'cart')]

@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\JeuxType;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class JeuxController extends AbstractController
 {
@@ -237,41 +238,6 @@ class JeuxController extends AbstractController
             'controller_name' => 'JeuxController',
         ]);
     }
-    #[Route('/add-to-cart-jeux/{id}', name: 'add_to_cart_jeux')]
-    public function addJeuxToCart($id, SessionInterface $session, EntityManagerInterface $entityManager): Response
-    {
-        $cart = $session->get('cart_jeux', []);
-        $quantityToAdd = 1;
-
-        if (isset($cart[$id])) {
-            $quantityToAdd = $cart[$id] + 1;
-        }
-
-        $jeuxRepository = $entityManager->getRepository(Jeux::class);
-        $jeux = $jeuxRepository->find($id);
-
-        if ($jeux && $jeux->getstockj() >= $quantityToAdd) {
-            $cart[$id] = $quantityToAdd;
-            $session->set('cart_jeux', $cart);
-            $this->addFlash('success', 'Item added to cart successfully.');
-        } else {
-            $this->addFlash('error', 'Failed to add item to cart. Not enough stock.');
-        }
-
-        return $this->redirectToRoute('cart_jeux');
-    }
-
-    #[Route('/remove-from-cart-jeux/{id}', name: 'remove_from_cart_jeux')]
-    public function removeFromCartJeux($id, SessionInterface $session): Response
-    {
-        $cart = $session->get('cart_jeux', []);
-
-        unset($cart[$id]);
-
-        $session->set('cart_jeux', $cart);
-
-        return $this->redirectToRoute('cart_jeux');
-    }
 
     #[Route('/update-cart-item-jeux/{id}', name: 'update_cart_item_jeux', methods: ['POST'])]
     public function updateCartItemJeux($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): JsonResponse
@@ -338,6 +304,8 @@ class JeuxController extends AbstractController
 
         return $this->redirectToRoute('product_details_jeux', ['id' => $jeux->getId()]);
     }
+
+
 
 
 

@@ -644,7 +644,7 @@ Additional Classes:
                         .nk-sidebar-right
                         .nk-sidebar-sticky
                 -->
-                <aside class="nk-sidebar nk-sidebar-right ">
+                <aside class="nk-sidebar nk-sidebar-right">
                     <div class="nk-widget">
                         <div class="nk-widget-content">
                             <form id="searchForm" action="{{ path('search') }}" method="get" class="nk-form nk-form-style-1" novalidate="novalidate">
@@ -653,14 +653,16 @@ Additional Classes:
                                     <button type="submit" class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
                                 </div>
                             </form>
+                            <div id="searchResults"></div> <!-- Container for search results -->
                             {% if noResults %}
                                 <p>No peripherals found.</p>
-
                             {% endif %}
                         </div>
                     </div>
 
-                    <div class="nk-widget nk-widget-highlighted">
+
+
+                <div class="nk-widget nk-widget-highlighted">
                         <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
                         <div class="nk-widget-content">
                             <ul class="nk-widget-categories">
@@ -1091,6 +1093,7 @@ Additional Classes:
 <script src="{{asset("assets/js/goodgames.min.js")}}"></script>
 <script src="{{asset("assets/js/goodgames-init.js")}}"></script>
 <!-- END: Scripts -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('searchForm');
@@ -1103,7 +1106,7 @@ Additional Classes:
         });
     });
 </script>
-    <script>
+    <!--<script>
         document.addEventListener('DOMContentLoaded', function() {
             var form = document.getElementById('searchForm');
             var input = document.getElementById('keywordInput');
@@ -1116,7 +1119,7 @@ Additional Classes:
                 }, 1000); // Adjust the delay as needed (500 milliseconds in this example)
             });
         });
-    </script>
+    </script>-->
 
 <script>
 $(document).ready(function() {
