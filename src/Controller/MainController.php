@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\Categorie;
 use App\Entity\Projectweb;
 use App\Form\ProduitType;
+use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -148,11 +150,13 @@ class MainController extends AbstractController
             $data = $projectwebRepository->findAll();
         }
 
-        return $this->render('main/store.html.twig', [
+        $html = $this->renderView('main/store.html.twig', [
             'list' => $data,
             'noResults' => empty($data),
             'keyword' => $keyword ?? '',
         ]);
+
+        return new JsonResponse(['html' => $html, 'list' => $data]);
     }
 
 
@@ -249,28 +253,41 @@ class MainController extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function cart(SessionInterface $session, EntityManagerInterface $entityManager): Response
     {
-        $cart = $session->get('cart', []);
+        //$cart = $session->get('cart', []);
+        //dump($cart);
+        $cartRepo = $entityManager->getRepository(Cart::class);
+        $cart = $cartRepo->findBy(['userId' => 0]);
+        //dump($cart);
 
 
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $cartItems = [];
 
         foreach ($cart as $id => $quantity) {
-            $projectweb = $projectwebRepository->find($id);
+            if ($quantity->getEntityType() === 'Projectweb'){
+                $projectweb = $projectwebRepository->find($quantity->getEntityId());
 
-            if ($projectweb) {
-                $cartItems[] = [
-                    'projectweb' => $projectweb,
-                    'quantity' => $quantity,
-                    'total' => $projectweb->getPrixP() * $quantity,
+                //dump($quantity);
 
-                ];
+
+                if ($projectweb) {
+                    $cartItems[] = [
+                        'projectweb' => $projectweb,
+                        'quantity' => $quantity->getQuantity(),
+                        'total' => $projectweb->getPrixP() * $quantity->getQuantity(),
+
+                    ];
+                }
             }
-        }
 
+        }
+        $totalPrix = 0;
+        foreach ($cartItems as $id => $cartI){
+            $totalPrix = $totalPrix + $cartI['total'];
+        }
         return $this->render('cart/cart.html.twig', [
             'cartItems' => $cartItems,
-
+            'cartTotalPrix' => $totalPrix,
         ]);
     }
 
@@ -300,6 +317,7 @@ class MainController extends AbstractController
 
         return $this->redirectToRoute('product_details', ['id' => $projectweb->getId()]);
     }
+
 
 
 

@@ -68,8 +68,6 @@
 
 
 
-
-
 <!--
     Additional Classes:
         .nk-header-opaque
@@ -522,8 +520,12 @@ Additional Classes:
             </div>
 
             <div class="nk-gap-2"></div>
-            <a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="store-checkout.html">Proceed to Checkout</a>
-            <div class="clearfix"></div>
+
+        {% if cartTotalPrix %}
+            <a id="checkoutButton" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ path('payment_checkout', {'totalPrix': cartTotalPrix}) }}">Proceed to Checkout</a>
+        {% endif %}
+
+        <div class="clearfix"></div>
         </div>
     </div>
 

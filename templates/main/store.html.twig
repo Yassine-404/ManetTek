@@ -165,7 +165,7 @@
 
                             <div class="nk-gap-2"></div>
                             <div class="text-center">
-                                <a href="store-checkout.html" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed to Checkout</a>
+                                <a href="checkout.html" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed to Checkout</a>
                             </div>
                         </div>
                     </li>
@@ -585,11 +585,11 @@ Additional Classes:
         <div class="nk-gap-2"></div>
         <div class="row vertical-gap">
             <div class="col-lg-8">
-                <!-- START: Products -->
-                <div class="row vertical-gap">
+                <!-- START: Products > -->
+                <div id="peripheriaue_id" class="row vertical-gap">
 
 
-                    {% for data in list %}
+                        {% for data in list %}
                         <div class="col-md-6">
                             <div class="nk-product-cat">
                                 <a class="nk-product-image" href="#">
@@ -633,8 +633,10 @@ Additional Classes:
                         </div>
                     {% endfor %}
                 </div>
-                <!-- END: Products -->
+                 <!-- END: Products -->
             </div>
+
+
             <div class="col-lg-4">
                 <!--
                     START: Sidebar
@@ -1096,30 +1098,28 @@ Additional Classes:
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('searchForm');
         const keywordInput = document.getElementById('keywordInput');
+        var searchResults = document.getElementById('peripheriaue_id')
 
         keywordInput.addEventListener('input', function () {
-            if (!keywordInput.value.trim()) {
-                form.submit();
-            }
+            var keyword = keywordInput.value.trim();
+                fetch('{{ path('search') }}?keyword=' + keyword).then(
+                    response => response.json()
+                ).then(
+                    data => {
+                        var tempElement = document.createElement('div');
+                        tempElement.innerHTML = data.html;
+                        var extractedElement = tempElement.querySelector('#peripheriaue_id');
+                        var extractedHTML = extractedElement.innerHTML;
+                        searchResults.innerHTML = extractedHTML;
+
+                    }
+                ).catch(
+                    error => console.log(error)
+                )
         });
     });
 </script>
-    <!--<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var form = document.getElementById('searchForm');
-            var input = document.getElementById('keywordInput');
-            var timeout;
-
-            input.addEventListener('input', function() {
-                clearTimeout(timeout); // Clear the previous timeout
-                timeout = setTimeout(function() {
-                    form.submit(); // Submit the form after a delay
-                }, 1000); // Adjust the delay as needed (500 milliseconds in this example)
-            });
-        });
-    </script>-->
 
 <script>
 $(document).ready(function() {

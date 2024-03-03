@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\Categorie;
 use App\Entity\Jeux;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -138,18 +139,18 @@ class JeuxController extends AbstractController
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
 
         if (!empty($keyword)) {
-            $jeux = $jeuxRepository->findByKeyword($keyword);
+            $data = $jeuxRepository->findByKeyword($keyword);
         } else {
-            $jeux = $jeuxRepository->findAll();
+            $data = $jeuxRepository->findAll();
         }
-        $noResults = empty($jeux);
 
-        return $this->render('jeux/store-jeux.html.twig', [
-            'list' => $jeux,
-            'controller_name' => 'JeuxController',
+        $html = $this->renderView('jeux/store-jeux.html.twig', [
+            'list' => $data,
             'noResults' => empty($data),
             'keyword' => $keyword ?? '',
         ]);
+
+        return new JsonResponse(['html' => $html, 'list' => $data]);
     }
     #[Route('/jeux/pc', name: 'jeux_pc')]
     public function pcGames(EntityManagerInterface $entityManager): Response
@@ -255,25 +256,30 @@ class JeuxController extends AbstractController
     #[Route('/cart-jeux', name: 'cart_jeux')]
     public function cart(SessionInterface $session, EntityManagerInterface $entityManager): Response
     {
-        $cart = $session->get('cart_jeux', []);
+        $cartRepo = $entityManager->getRepository(Cart::class);
+        $cart = $cartRepo->findBy(['userId' => 0]);
 
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
         $cartItems = [];
 
         foreach ($cart as $id => $quantity) {
-            $jeux = $jeuxRepository->find($id);
-
+            $jeux = $jeuxRepository->find($quantity->getEntityId());
+            //dump($jeux);
             if ($jeux) {
                 $cartItems[] = [
                     'jeux' => $jeux,
                     'quantity' => $quantity,
-                    'total' => $jeux->getprixj() * $quantity,
+                    'total' => (int)$jeux->getprixj() * $quantity->getQuantity(),
                 ];
             }
         }
-
+            $totalPrix = 0;
+        foreach ($cartItems as $id => $cartI){
+            $totalPrix = $totalPrix + $cartI['total'];
+        }
         return $this->render('cart/cart.jeux.html.twig', [
             'cartItems' => $cartItems,
+            'cartTotalPrix' => $totalPrix,
         ]);
     }
     #[Route('/rate-jeux/{id}', name: 'rate_jeux')]

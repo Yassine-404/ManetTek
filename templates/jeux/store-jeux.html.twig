@@ -583,7 +583,7 @@ Additional Classes:
         <div class="row vertical-gap">
             <div class="col-lg-8">
                 <!-- START: Products -->
-                <div class="row vertical-gap">
+                <div id="jeux_id" class="row vertical-gap">
 
                     {% for data in list %}
                         <div class="col-md-6">
@@ -673,9 +673,7 @@ Additional Classes:
                                         <button type="submit" class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
                                     </div>
                                 </form>
-                                {% if noResults %}
-                                    <p>No jeux found.</p>
-                                {% endif %}
+                                <div id="searchResults"></div> <!-- Container for search results -->
                             </div>
                         </div>
 
@@ -1101,29 +1099,29 @@ Additional Classes:
 <script src="{{asset("assets/js/goodgames.min.js")}}"></script>
 <script src="{{asset("assets/js/goodgames-init.js")}}"></script>
 <!-- END: Scripts -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('searchForm');
         const keywordInput = document.getElementById('keywordInput');
+        var searchResults = document.getElementById('jeux_id')
 
         keywordInput.addEventListener('input', function () {
-            if (!keywordInput.value.trim()) {
-                form.submit();
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var form = document.getElementById('searchForm');
-        var input = document.getElementById('keywordInput');
-        var timeout;
+            var keyword = keywordInput.value.trim();
+            fetch('{{ path('search_jeux') }}?keyword=' + keyword).then(
+                response => response.json()
+            ).then(
+                data => {
+                    var tempElement = document.createElement('div');
+                    tempElement.innerHTML = data.html;
+                    var extractedElement = tempElement.querySelector('#jeux_id');
+                    // Extract the innerHTML of the found element
+                    var extractedHTML = extractedElement.innerHTML;
+                    searchResults.innerHTML = extractedHTML;
 
-        input.addEventListener('input', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(function() {
-                form.submit();
-            }, 1000);
+                }
+            ).catch(
+                error => console.log(error)
+            )
         });
     });
 </script>

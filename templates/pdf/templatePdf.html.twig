@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Recipient Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .order-details {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .order-details th, .order-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .order-details th {
+            background-color: #f2f2f2;
+        }
+        .logo {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="logo1.png" alt="Logo" class="logo">
+    <h1>Payment Done Successfully</h1>
+    <h6>Thank you for your confidence, we hope you like our products</h6>
+    <h1>Order Recipient Details</h1>
+    <table class="order-details">
+        <tr>
+            <th>Total of The Order</th>
+            <td>{{ totalPrix }} $</td>
+        </tr>
+
+    </table>
+</div>
+</body>
+</html>
