@@ -6,6 +6,7 @@ use App\Entity\Cart;
 use App\Entity\Categorie;
 use App\Entity\Projectweb;
 use App\Form\ProduitType;
+use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -129,13 +130,20 @@ class MainController extends AbstractController
         }
 
     #[Route('/store', name: 'store')]
-    public function store(EntityManagerInterface $entityManager): Response
+    public function store(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator): Response
     {
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $data = $projectwebRepository->findAll();
 
+        $pagination = $paginator->paginate(
+            $projectwebRepository->paginationQuery(),
+            $request->query->get('page', 1),
+            3
+        );
+
         return $this->render('main/store.html.twig', [
             'list' => $data,
+            'pagination' => $pagination,
             'noResults' => empty($data),
             'controller_name' => 'MainController',
         ]);

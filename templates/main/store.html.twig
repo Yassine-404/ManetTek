@@ -589,7 +589,7 @@ Additional Classes:
                 <div id="peripheriaue_id" class="row vertical-gap">
 
 
-                        {% for data in list %}
+                        {% for data in pagination %}
                         <div class="col-md-6">
                             <div class="nk-product-cat">
                                 <a class="nk-product-image" href="#">
@@ -632,8 +632,15 @@ Additional Classes:
                             </div>
                         </div>
                     {% endfor %}
+
+
                 </div>
-                 <!-- END: Products -->
+                <!-- END: Products -->
+                <!-- Pagination Buttons -->
+                <div style="display: flex; justify-content: center; align-items: center; height: 30vh; font-size: 2.5rem;">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+
             </div>
 
 

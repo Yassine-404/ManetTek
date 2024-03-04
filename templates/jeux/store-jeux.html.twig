@@ -585,7 +585,7 @@ Additional Classes:
                 <!-- START: Products -->
                 <div id="jeux_id" class="row vertical-gap">
 
-                    {% for data in list %}
+                    {% for data in pagination %}
                         <div class="col-md-6">
                             <div class="nk-product-cat">
                                 <a class="nk-product-image" href="#">
@@ -634,25 +634,10 @@ Additional Classes:
                 </div>
                 <!-- END: Products -->
 
-                <!-- START: Pagination -->
-                <div class="nk-gap-3"></div>
-                <div class="nk-pagination nk-pagination-center">
-                    <a href="#" class="nk-pagination-prev">
-                        <span class="ion-ios-arrow-back"></span>
-                    </a>
-                    <nav>
-                        <a class="nk-pagination-current" href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <span>...</span>
-                        <a href="#">14</a>
-                    </nav>
-                    <a href="#" class="nk-pagination-next">
-                        <span class="ion-ios-arrow-forward"></span>
-                    </a>
+                <!-- Pagination Buttons -->
+                <div style="display: flex; justify-content: center; align-items: center; height: 30vh; font-size: 2.5rem;">
+                    {{ knp_pagination_render(pagination) }}
                 </div>
-                <!-- END: Pagination -->
             </div>
             <div class="col-lg-4">
                 <!--

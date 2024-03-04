@@ -122,13 +122,21 @@ class JeuxController extends AbstractController
     }
 
     #[Route('/jeux/store-jeux', name: 'store-jeux')]
-    public function store(EntityManagerInterface $entityManager): Response
+    public function store(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator): Response
     {
         $jeuxRepository = $entityManager->getRepository(Jeux::class);
         $jeux = $jeuxRepository->findAll();
 
+
+        $pagination = $paginator->paginate(
+            $jeuxRepository->paginationQuery(),
+            $request->query->get('page', 1),
+            3
+        );
+
         return $this->render('jeux/store-jeux.html.twig', [
             'list' => $jeux,
+            'pagination' => $pagination,
             'noResults' => empty($data),
             'controller_name' => 'MainController',
 
