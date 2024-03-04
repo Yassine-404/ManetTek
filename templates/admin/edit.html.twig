@@ -1,0 +1,25 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block title %}Edit Utilisateur{% endblock %}
+
+{% block body %}
+<style>
+.container{
+    position: relative;
+    margin-top: 100px;
+    left:-400px;
+background-color: #ec37fc;
+width: 30%;
+height: 50%;    
+border-radius: 10px;
+box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+}
+</style>
+    <h1>Edit Utilisateur</h1>
+    <div class="container">
+    {{ include('admin/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+    <a href="{{ path('app_admin_index') }}">back to list</a>
+
+    {{ include('admin/_delete_form.html.twig') }}
+{% endblock %}

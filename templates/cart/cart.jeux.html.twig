@@ -530,8 +530,28 @@ Additional Classes:
 
         <div class="nk-gap-2"></div>
         {% if cartTotalPrix %}
-            <a id="checkoutButton" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ path('payment_checkout', {'totalPrix': cartTotalPrix}) }}">Proceed to Checkout</a>
+            <button id="checkoutButton" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="{{ cartTotalPrix }}">Proceed to Checkout</button>
         {% endif %}
+        {% block javascripts %}
+            <script>
+                // Get the user id from local storage
+                var userId = localStorage.getItem('user_id');
+                var cartTotalPrix = document.getElementById('checkoutButton').getAttribute('href');
+
+                // Update the href attribute of the checkout button with the user id
+                document.getElementById('checkoutButton').addEventListener('click', function(event) {
+                    // Prevent the default behavior of the link
+                    event.preventDefault();
+
+                    // Fetch the data from the endpoint
+                    var checkoutUrl = '{{ path("payment_checkout", {"totalPrix": "CART_TOTAL_PRIX", "userId": "USER_ID"}) }}'
+                        .replace('CART_TOTAL_PRIX', cartTotalPrix)
+                        .replace('USER_ID', userId);
+
+                    window.location.href = checkoutUrl;
+                });
+            </script>
+        {% endblock %}
         <div class="clearfix"></div>
     </div>
 </div>

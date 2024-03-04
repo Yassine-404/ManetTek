@@ -3,27 +3,26 @@
 {% block title %}Utilisateur index{% endblock %}
 
 {% block body %}
-   
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Email</th>
-                <th>Prenom</th>
-                <th>Role</th>
-                <th>IsVerified</th>
-                <th>Adress</th>
-                <th>Ville</th>
-                <th>Zipcode</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Roles</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Prenom</th>
+            <th>Role</th>
+            <th>IsVerified</th>
+            <th>Adress</th>
+            <th>Ville</th>
+            <th>Zipcode</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
-        {% for utilisateur in utilisateurs %}
+        {% for utilisateur in tabUserByID %}
             <tr>
                 <td>{{ utilisateur.id }}</td>
                 <td>{{ utilisateur.nom }}</td>
@@ -49,14 +48,4 @@
         </tbody>
     </table>
 
-   
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% if user_id %}
-        <script>
-            localStorage.setItem('user_id', '{{ user_id }}');
-        </script>
-    {% endif %}
 {% endblock %}

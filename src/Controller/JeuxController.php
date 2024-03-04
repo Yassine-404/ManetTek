@@ -51,6 +51,8 @@ class JeuxController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $jeu->setAverageRating(0);
+            $jeu->setTotalRating(0);
             $entityManager->persist($jeu);
             if($photo = $form['photo']->getData()){
             $fileName = uniqid().'.'.$photo->guessExtension();

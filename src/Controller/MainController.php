@@ -33,13 +33,13 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
-    #[Route('/admin', name: 'display_admin')]
+    #[Route('/amin', name: 'display_admin')]
     public function indexAdmin(EntityManagerInterface $entityManager): Response
     {
         $projectwebRepository = $entityManager->getRepository(Projectweb::class);
         $data = $projectwebRepository->findAll();
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/index1.html.twig', [
             'list' => $data,
             'controller_name' => 'MainController',
         ]);
@@ -67,6 +67,8 @@ class MainController extends AbstractController
 
 
           $em->persist($projectweb);
+          $projectweb->setTotalRating(0);
+          $projectweb->setAverageRating(0);
           if($photo = $form['photo']->getData()){
               $fileName = uniqid().'.'.$photo->guessExtension();
               $photo->move($photoDir,$fileName);

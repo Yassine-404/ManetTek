@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+{% block body %}
+<style>
+.error{
+        color:red;
+        font-size:19px;
+        font-weight:bold;
+        margin-top:10px;
+}
+</style>
+        {{ include('utilisateur/_form.html.twig') }}
+<script src="../admin.js"></script>
+{% endblock %}

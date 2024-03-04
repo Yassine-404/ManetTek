@@ -1,0 +1,69 @@
+<style>
+.error{
+    font-size: 19px;
+    color:white;
+}
+</style>
+{{ form_start(form) }}
+
+<div class="form-group">
+    {{ form_label(form.nom) }}
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+    <div class="error" id="nom_verif"></div>
+ $
+</div>
+
+<div class="form-group">
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+      <div class="error" id="password_verif"></div>
+ 
+</div>
+
+<div class="form-group">
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+      <div class="error" id="email_verif"></div>
+  
+</div>
+
+<div class="form-group">
+    {{ form_label(form.prenom) }}
+    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+      <div class="error" id="prenom_verif"></div>
+
+</div>
+
+<div class="form-group">
+    {{ form_label(form.role) }}
+    {{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}
+
+</div>
+
+<div class="form-group">
+    {{ form_label(form.isVerified) }}
+    {{ form_widget(form.isVerified, {'attr': {'class': 'form-control'}}) }}
+ 
+</div>
+
+<div class="form-group">
+    {{ form_label(form.adress) }}
+    {{ form_widget(form.adress, {'attr': {'class': 'form-control'}}) }}
+ 
+</div>
+
+<div class="form-group">
+    {{ form_label(form.ville) }}
+    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+$
+</div>
+
+<div class="form-group">
+    {{ form_label(form.zipcode) }}
+    {{ form_widget(form.zipcode, {'attr': {'class': 'form-control'}}) }}
+
+</div>
+<div class="form-group">
+<button class="btn" id="submit_button" >{{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}
