@@ -18,6 +18,18 @@ class Pmatch
 
     #[ORM\Column]
     private ?int $type = null;
+    #[ORM\Column]
+    private ?int $points = null;
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(?int $points): void
+    {
+        $this->points = $points;
+    }
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $idp = null;

@@ -26,11 +26,12 @@ class MatchController extends AbstractController
         $entityManager->persist($match);
         $entityManager->flush();
 
-        return $this->redirect($this->generateUrl('app_makeroom'));
+        return $this->redirect($this->generateUrl('app_makeroom',['id' => $match->getId()]));
     }
 
     return $this->render('match/index.html.twig', [
         'formroom' => $form->createView(),
+
     ]);
 }
 

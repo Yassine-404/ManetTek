@@ -170,93 +170,66 @@
 <div class="row vertical-gap" style="margin-left: 121px;">
 
 
-    <div class="nk-match" style="margin-right: 200px">
-        {% set count = 0 %}
+    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1" onclick="showFields()"
+       style="margin-left: 121px;">Add
+        to
+        Cart</a>
+</div>
+</div>
 
-        <div class="nk-match-team-left">
-            <div class="nk-team">
-                <div class="nk-team-logo">
-                    <img src="assets/images/team-1-lg.jpg" alt="">
-                </div>
-                <div class="nk-team-cont">
-                    <h4 class="h6 mb-5">Members:</h4>
+</div>
 
-                    <ul>
-
-                        {% for user in activeUsers %}
-                            {% if count < 5 %}
-                                <li>{{ user.username }}</li>
-                            {% endif %}
-                            {% set count = count + 1 %}
-                        {% endfor %}
-                    </ul>
-                </div>
+<div id="additionalFields" style="display: none; margin-left: 121px;">
+    <form id="myForm">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="selection1">Selection 1:</label>
+                <select id="selection1" name="selection1">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="selection2">Selection 2:</label>
+                <select id="selection2" name="selection2">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
             </div>
         </div>
-        <div class="nk-match-status">
-            <a href="#">
-                <span class="nk-match-status-vs">VS</span>
-                <span><button id="startBtn" class="nk-match-score bg-danger">Start</button></span>
-            </a>
-            <script>
-                var startTime;
-                var timerInterval;
-                var isRunning = false;
-
-                function startChronometer() {
-                    if (!isRunning) {
-                        startTime = Date.now();
-                        timerInterval = setInterval(updateChronometer, 1000);
-                        isRunning = true;
-                        document.getElementById('startBtn').textContent = 'End';
-                    } else {
-                        stopChronometer();
-                    }
-                }
-                function stopChronometer() {
-                    clearInterval(timerInterval);
-                    isRunning = false;
-                    document.getElementById('startBtn').textContent = 'Start';
-                }
-
-                function updateChronometer() {
-                    var elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-                    var hours = Math.floor(elapsedTime / 3600);
-                    var minutes = Math.floor((elapsedTime % 3600) / 60);
-                    var seconds = elapsedTime % 60;
-
-                    // Format the time values with leading zeros
-                    var formattedTime = ('0' + hours).slice(-2) + ':' +
-                        ('0' + minutes).slice(-2) + ':' +
-                        ('0' + seconds).slice(-2);
-
-                    document.getElementById('chronometer').textContent = formattedTime;
-                }
-
-                document.getElementById('startBtn').addEventListener('click', startChronometer);
-            </script>
-
-            <div id="chronometer" class="chronometer">00:00:00</div>
-        </div>
-        <div class="nk-match-team-right">
-            <div class="nk-team">
-                <div class="nk-team-logo">
-                    <img src="assets/images/team-1-lg.jpg" alt="">
-                </div>
-                <div class="nk-team-cont">
-                    <h4 class="h6 mb-5">Members:</h4>
-
-                    <ul>
-                        {% for user in activeUsers %}
-                            {% if loop.index > 5 %}
-                                <li>{{ user.username }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="password">Password:</label>
+                <input type="text" id="password" name="password" placeholder="Enter your password">
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1" >Submit</button>
+                <button type="button" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1"
+                        onclick="hideFields()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showFields() {
+        var additionalFields = document.getElementById("additionalFields");
+        additionalFields.style.display = "block";
+    }
+
+    function hideFields() {
+        var additionalFields = document.getElementById("additionalFields");
+        additionalFields.style.display = "none";
+    }
+
+
+
+</script>
 
 
 </div>

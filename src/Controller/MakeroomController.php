@@ -8,6 +8,7 @@ use App\Repository\PlayeruserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Pmatch;
 use App\Repository\PmatchRepository;
@@ -15,11 +16,7 @@ use App\Repository\PmatchRepository;
 
 class MakeroomController extends AbstractController
 {
-    #[Route('/makeroom/{id}', name: 'app_makeroom')]
-
-
-
-
+    #[Route("/makeroom/{id}", name: "app_makeroom")]
     public function updateroom(
         Request $request,
                 $id,
@@ -51,4 +48,6 @@ class MakeroomController extends AbstractController
             'activeUsers' => $activeUsers,
         ]);
     }
+
+
 }

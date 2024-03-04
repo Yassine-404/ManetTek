@@ -19,6 +19,7 @@ class NewmatchType extends AbstractType
                 '3V3'=>6,
                 '1V1'=>2,
             ]])
+            ->add('points')
             ->add('idp')
             ->add('game', ChoiceType::class, [ 'choices'  => [
                 'League of legends' => 'League',
@@ -32,6 +33,7 @@ class NewmatchType extends AbstractType
             ->add('pwd', TextType::class, [
                 'required' => false,
             ]);
+
 
         ;
     }

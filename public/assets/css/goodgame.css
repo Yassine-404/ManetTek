@@ -6938,8 +6938,7 @@ img.rounded {
 .nk-gallery-item-box .nk-gallery-item-overlay,
 .nk-gallery-item-group .nk-gallery-item-overlay {
     position: absolute;
-    display: -webkit-box;
-    display: -ms-flexbox;
+
     display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -6959,8 +6958,8 @@ img.rounded {
 
 .nk-gallery-item-box .nk-gallery-item-overlay > span,
 .nk-gallery-item-group .nk-gallery-item-overlay > span {
-    width: 56px;
-    height: 56px;
+    width: 0px;
+    height: 0px;
     margin: 0 auto;
     font-size: 3rem;
     line-height: 48px;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --main-highlight-color: #60D0E4;
+            --secondary-highlight-color: #B8E6F1;
+            --list-point-color: #C2C6CA;
+            --text-color: #303E48;
+        }
+
+        @page {
+            size: 8.5in 11in; /* Set the page size to letter */
+            margin: 2cm; /* Set the margins to 2cm on all sides */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        header {
+            padding: 1cm 1.5cm;
+            display: flex;
+            justify-content: space-between;
+            align-items: top;
+            background-color: var(--main-highlight-color);
+        }
+
+        header div {
+            text-align: right;
+            line-height: 16pt;
+            text-transform: uppercase;
+        }
+
+        header div h2 {
+            font-size: 12pt;
+            margin: 0;
+            text-transform: none;
+        }
+
+        aside {
+            padding: 1cm;
+            text-align: left;
+            background-color: var(--secondary-highlight-color);
+        }
+
+        aside span.img {
+            width: 3cm;
+            height: 3cm;
+            background-image: url("https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2376&q=80");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: 1.5mm solid var(--text-color);
+            border-radius: 100%;
+            display: block;
+            position: absolute;
+            top: -1.5cm;
+        }
+
+        main {
+            margin: 2cm 0 0 0;
+        }
+
+        main h3 {
+            margin-top: 1cm;
+            margin-bottom: 1em;
+        }
+
+        main ol {
+            list-style-type: none;
+            counter-reset: listitems;
+            margin-left: 1cm;
+        }
+
+        main ol > li {
+            counter-increment: listitems;
+        }
+
+        main ol > li:before {
+            content: "0" counter(listitems);
+            float: left;
+            margin-left: -1cm;
+            font-size: 18pt;
+            color: var(--list-point-color);
+        }
+
+        main ul {
+            margin-left: 0.5cm;
+        }
+
+        main h4 + p {
+            margin: 0;
+        }
+
+        main .company {
+            text-transform: uppercase;
+        }
+
+        h3 {
+            color: var(--main-highlight-color);
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>{{ player.username }}</h1>
+    <div>
+        <h2>Digital Strategist &amp; Marketing</h2>
+        <a href="{{ player.pemail }}">{{ player.Pemail }}</a>
+    </div>
+</header>
+<aside>
+    <span class="img"></span>
+    <hr>
+    <h3>Main Game</h3>
+    <h4>{{ player.maingame }}</h4>
+    <p>
+        Level
+        <br>
+        {{ player.lvl }}
+    </p>
+    <h4>Points</h4>
+    <p>
+        <br>
+        {{ player.point }}
+    </p>
+    <hr>
+    <h3>Main Position</h3>
+    <h4>{{ player.Proll }}</h4>
+</aside>
+<main>
+    <h3>Summary</h3>
+    <h4>Playing {{ player.maingame }}</h4>
+    <p>
+        Love to be {{ player.Proll }}, I find myself an expert in this lane.
+    </p>
+    <h3>Professional Experience</h3>
+    <p>
+        My ambition in the gaming territory, {{ player.pambition }}
+    </p>
+</main>
+</body>
+</html>
