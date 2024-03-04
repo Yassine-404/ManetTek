@@ -81,7 +81,7 @@
 
         <!--
             START: Navbar
-    
+
             Additional Classes:
                 .nk-navbar-sticky
                 .nk-navbar-transparent
@@ -101,187 +101,27 @@
                             <a href="#">
                                 Accueil
 
-                            </a><ul class="dropdown">
-
-                                <li>
-                                    <a href="#">
-                                        Elements (Shortcodes)
-
-                                    </a>
-                                </li>
-                                <li class=" nk-drop-item">
-                                    <a href="#">
-                                        Forum
-
-                                    </a><ul class="dropdown">
-
-                                        <li>
-                                            <a href="#">
-                                                Forum
-
-                                            </a>
-                                        </li>
-                                        <li >
-                                            <a href="#">
-                                                Topics
-
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Single Topic
-
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Widgets
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Coming Soon
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Offline
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        404
-
-                                    </a>
-                                </li>
-                            </ul>
+                            </a>
                         </li>
                         <li class=" nk-drop-item">
                             <a href="#">
                                 Jeux
-
-                            </a><ul class="dropdown">
-
-                                <li>
-                                    <a href="#">
-                                        News
-
-                                    </a>
-                                </li>
-                                <li class=" nk-drop-item">
-                                    <a href="#">
-                                        Blog With Sidebar
-
-                                    </a><ul class="dropdown">
-
-                                        <li>
-                                            <a href="#">
-                                                Blog Grid
-
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Blog List
-
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Blog Fullwidth
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Blog Article
-
-                                    </a>
-                                </li>
-                            </ul>
+                            </a>
                         </li>
 
                         <li class=" nk-drop-item">
                             <a href="#">
                                 Tournois
-
-                            </a><ul class="dropdown">
-
-                                <li>
-                                    <a href="#">
-                                        Tournament
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Teams
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Teammate
-
-                                    </a>
-                                </li>
-                            </ul>
+                            </a>
                         </li>
                         <li class=" nk-drop-item">
                             <a href="#">
                                 Boutique
-
-                            </a><ul class="dropdown">
-
-                                <li>
-                                    <a href="#">
-                                        Store
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Product
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Catalog
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Catalog Alt
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Checkout
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Cart
-
-                                    </a>
-                                </li>
-                            </ul>
+                            </a>
                         </li>
                         <li class="active">
                             <a href="#">
                                 Forum
-
                             </a>
                         </li>
                     </ul>
@@ -369,140 +209,53 @@ Additional Classes:
             <!-- START: Pagination -->
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
-                    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Nouveau sujet</a>
+                    <a href="{{ path('ajouter_sujet') }}" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Nouveau sujet</a>
                 </div>
+                <form action="{{ path('search') }}" method="get" class="nk-form nk-form-style-1">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Recherchez...">
+                        <button type="submit" class="nk-btn nk-btn-color-main-1">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <!-- END: Pagination -->
 
             <div class="nk-gap-2"></div>
 
             <!-- START: Forums List -->
             <ul class="nk-forum">
-                <li>
-                    <div class="nk-forum-icon">
-                        <span class="ion-chatboxes"></span>
+                {% for sujet in sujets|sort((a, b) => b.dateCreation <=> a.dateCreation) %}
+            <li {% if sujet.actif == 0 %}class="nk-forum-locked"{% endif %}>
+                <div class="nk-forum-icon">
+                    <span class="ion-chatboxes"></span>
+                </div>
+                <div class="nk-forum-title">
+                {% if sujet.actif == 1 %}
+                    <h3><a href="{{ path('afficher_sujet', {'id': sujet.id}) }}" >{{ sujet.titre }}</a></h3>
+                {% else %}
+                    <h3>{{ sujet.titre }}</h3>
+                {% endif %}
+                    <div class="nk-forum-title-sub">Commencé par <a href="#">{{ sujet.auteur.username }}</a> le {{ sujet.dateCreation|date('d F Y') }}</div>
+                </div>
+                <div class="nk-forum-count">
+                    {{ sujet.nombreCommentaires }} {% if sujet.nombreCommentaires > 1 %}commentaires{% else %}commentaire{% endif %}
+                </div>
+                <div class="nk-forum-activity-avatar">
+                    <a href="#">
+                        <img src="{{ asset('assets/images/avatar-yas.jpg') }}" alt="{{ sujet.auteur.username }}">
+                    </a>
+                </div>
+                <div class="nk-forum-activity">
+                    <div class="nk-forum-activity-title" title="{{ sujet.auteur.username }}">
+                        <a href="#">{{ sujet.auteur.username }}</a>
                     </div>
-                    <div class="nk-forum-title">
-                        <h3><a href="#">Je teste le forum !</a></h3>
-                        <div class="nk-forum-title-sub">Commencé par <a href="#">Yassine</a> le 12 Février 2024</div>
+                    <div class="nk-forum-activity-date">
+                        {{ sujet.dateCreation|date('d F Y') }}
                     </div>
-                    <div class="nk-forum-count">
-                        4 commentaires
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a href="#">
-                            <img src="{{ asset("assets/images/avatar-yas.jpg") }}" alt="Wolfenstein">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Wolfenstein">
-                            <a href="#">Yassine</a>
-                        </div>
-                        <div class="nk-forum-activity-date">
-                            12 Février 2024
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="nk-forum-icon">
-                        <span class="ion-chatboxes"></span>
-                    </div>
-                    <div class="nk-forum-title">
-                        <h3><a href="#">Ceci aussi est un test</a></h3>
-                        <div class="nk-forum-title-sub">Commencé par <a href="#">Yassine</a> le 12 Février 2024</div>
-                    </div>
-                    <div class="nk-forum-count">
-                        1 commentaire
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a href="#">
-                            <img src="{{ asset("assets/images/avatar-yas.jpg") }}" alt="Witch Murder">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Witch Murder">
-                            <a href="#">Yassine</a>
-                        </div>
-                        <div class="nk-forum-activity-date">
-                            12 Février 2024
-                        </div>
-                    </div>
-                </li>
-                <li class="nk-forum-locked">
-                    <div class="nk-forum-icon">
-                        <span class="ion-locked"></span>
-                    </div>
-                    <div class="nk-forum-title">
-                        <h3><a href="#">Voyant voir sa bloque</a></h3>
-                        <div class="nk-forum-title-sub">Commencé par <a href="#">Ulrich</a> le 12 Février 2024</div>
-                    </div>
-                    <div class="nk-forum-count">
-                        3 commentaires
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a href="#">
-                            <img src="{{ asset("assets/images/avatar-2.jpg") }}" alt="Witch Murder">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Witch Murder">
-                            <a href="#">Ulrich</a>
-                        </div>
-                        <div class="nk-forum-activity-date">
-                            12 Févreier 2024
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="nk-forum-icon">
-                        <span class="ion-chatboxes"></span>
-                    </div>
-                    <div class="nk-forum-title">
-                        <h3><a href="#">Bon dernier alors </a></h3>
-                        <div class="nk-forum-title-sub">Commencé par <a href="#">Yassine</a> le 12 Février 2024</div>
-                    </div>
-                    <div class="nk-forum-count">
-                        8 commentaires
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a href="#">
-                            <img src="{{ asset("assets/images/avatar-yas.jpg") }}" alt="Hitman">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Hitman">
-                            <a href="#">Yassine</a>
-                        </div>
-                        <div class="nk-forum-activity-date">
-                            12 Février 2024
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="nk-forum-icon">
-                        <span class="ion-chatboxes"></span>
-                    </div>
-                    <div class="nk-forum-title">
-                        <h3><a href="#">Some questions before start</a></h3>
-                        <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on June 28, 2018</div>
-                    </div>
-                    <div class="nk-forum-count">
-                        1 commentaire
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a href="#">
-                            <img src="{{ asset("assets/images/avatar-1.jpg")}}" alt="Hitman">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Hitman">
-                            <a href="#">Hitman</a>
-                        </div>
-                        <div class="nk-forum-activity-date">
-                            June 28, 2018
-                        </div>
-                    </div>
-                </li>
+                </div>
+            </li>
+        {% endfor %}
             </ul>
             <!-- END: Forums List -->
 
@@ -511,7 +264,7 @@ Additional Classes:
             <!-- START: Pagination -->
             <div class="row">
                 <div class="col-md-3 order-md-2 text-right">
-                    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</a>
+                    <a href="{{ path('ajouter_sujet') }}" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Nouveau sujet</a>
                 </div>
                 <div class="col-md-9">
                     <div class="nk-pagination nk-pagination-left">
@@ -542,80 +295,7 @@ Additional Classes:
         <!-- START: Footer -->
         <footer class="nk-footer">
 
-            <div class="container">
-                <div class="nk-gap-3"></div>
-                <div class="row vertical-gap">
-                    <div class="col-md-6">
-                        <div class="nk-widget">
-                            <h4 class="nk-widget-title"><span class="text-main-1">Contact</span> With Us</h4>
-                            <div class="nk-widget-content">
-                                <form action="" class="nk-form nk-form-ajax">
-                                    <div class="row vertical-gap sm-gap">
-                                        <div class="col-md-6">
-                                            <input type="email" class="form-control required" name="email" placeholder="Email *">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control required" name="name" placeholder="Name *">
-                                        </div>
-                                    </div>
-                                    <div class="nk-gap"></div>
-                                    <textarea class="form-control required" name="message" rows="5" placeholder="Message *"></textarea>
-                                    <div class="nk-gap-1"></div>
-                                    <button class="nk-btn nk-btn-rounded nk-btn-color-white">
-                                        <span>Send</span>
-                                        <span class="icon"><i class="ion-paper-airplane"></i></span>
-                                    </button>
-                                    <div class="nk-form-response-success"></div>
-                                    <div class="nk-form-response-error"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="nk-widget">
-                            <h4 class="nk-widget-title"><span class="text-main-1">Latest</span> Posts</h4>
-                            <div class="nk-widget-content">
-                                <div class="row vertical-gap sm-gap">
 
-                                    <div class="col-lg-6">
-                                        <div class="nk-widget-post-2">
-                                            <a href="{{ asset("blog-article.html") }}" class="nk-post-image">
-                                                <img src="{{ asset("assets/images/post-1-sm.jpg") }}" alt="">
-                                            </a>
-                                            <div class="nk-post-title"><a href="{{ asset("blog-article.html") }}">Smell magic in the air. Or maybe barbecue</a></div>
-                                            <div class="nk-post-date">
-                                                <span class="fa fa-calendar"></span> Sep 18, 2018
-                                                <span class="fa fa-comments"></span> <a href="#">4</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="nk-widget-post-2">
-                                            <a href="{{ asset("blog-article.html") }}" class="nk-post-image">
-                                                <img src="{{ asset("assets/images/post-2-sm.jpg") }}" alt="">
-                                            </a>
-                                            <div class="nk-post-title"><a href="#">Grab your sword and fight the Horde</a></div>
-                                            <div class="nk-post-date">
-                                                <span class="fa fa-calendar"></span> Sep 5, 2018
-                                                <span class="fa fa-comments"></span> <a href="#">7</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="nk-widget">
-                            <h4 class="nk-widget-title"><span class="text-main-1">In</span> Twitter</h4>
-                            <div class="nk-widget-content">
-                                <div class="nk-twitter-list" data-twitter-count="1"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nk-gap-3"></div>
-            </div>
 
             <div class="nk-copyright">
                 <div class="container">
@@ -672,7 +352,6 @@ Additional Classes:
     <!-- START: Page Background -->
 
     <img class="nk-page-background-top" src="{{ asset("assets/images/bg-topp.png") }}" alt="">
-    <img class="nk-page-background-bottom" src="{{ asset("assets/images/bg-bottom.png") }}" alt="">
 
     <!-- END: Page Background -->
 

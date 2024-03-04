@@ -120,7 +120,7 @@
                             </a>
                         </li>
                         <li class="active">
-                            <a href="{{ path('Forum')}}">
+                            <a href="{{ path('Forum') }}">
                                 Forum
                             </a>
                         </li>
@@ -188,12 +188,12 @@ Additional Classes:
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><a href="{{ path('Forum')}}">Forum</a></li>
+                <li><a href="{{ path('Forum') }}">Forum</a></li>
 
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><span>Ajoutez un nouveau sujet</span></li>
+                <li><span>Résultat de la recherche</span></li>
 
             </ul>
         </div>
@@ -206,31 +206,72 @@ Additional Classes:
 
         <div class="container">
 
+            <!-- START: Pagination -->
+            <div class="row justify-content-end">
+                <div class="col-md-3 text-right">
+                    <a href="{{ path('ajouter_sujet') }}" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Nouveau sujet</a>
+                </div>
+                <form action="#" method="get" class="nk-form nk-form-style-1">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Recherchez...">
+                        <button type="submit" class="nk-btn nk-btn-color-main-1">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             <div class="nk-gap-2"></div>
 
             <!-- START: Forums List -->
-            <ul class="nk-forum nk-forum-topic">
-
-                    {{ form_start(form) }}
-
-                            {{ form_label(form.titre, 'Titre') }}
-                            {{ form_widget(form.titre, {'attr': {'class': 'form-control required', 'placeholder': 'Titre'}}) }}
-
-                    <div class="nk-gap"></div>
-                    {{ form_label(form.contenu, 'Contenu') }}
-                    {{ form_widget(form.contenu, {'attr': {'class': 'form-control required', 'rows': 5, 'placeholder': 'Contenu'}}) }}
-                    <div class="nk-gap-1"></div>
-                    <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-info">
-                        <span>Ajouter le sujet</span>
-                        <span class="icon"><i class="ion-paper-airplane"></i></span>
-                    </button>
-                    {{ form_end(form) }}
-                    <div class="nk-form-response-success"></div>
-                    <div class="nk-form-response-error"></div>
+            <ul class="nk-forum">
+                {% if sujets is not empty %}
+                {% for sujet in sujets %}
+                    <li {% if sujet.actif == 0 %}class="nk-forum-locked"{% endif %}>
+                        <div class="nk-forum-icon">
+                            <span class="ion-chatboxes"></span>
+                        </div>
+                        <div class="nk-forum-title">
+                            {% if sujet.actif == 1 %}
+                                <h3><a href="{{ path('afficher_sujet', {'id': sujet.id}) }}" >{{ sujet.titre }}</a></h3>
+                            {% else %}
+                                <h3>{{ sujet.titre }}</h3>
+                            {% endif %}
+                            <div class="nk-forum-title-sub">Commencé par <a href="#">{{ sujet.auteur.username }}</a> le {{ sujet.dateCreation|date('d F Y') }}</div>
+                        </div>
+                        <div class="nk-forum-count">
+                            {{ sujet.nombreCommentaires }} {% if sujet.nombreCommentaires > 1 %}commentaires{% else %}commentaire{% endif %}
+                        </div>
+                        <div class="nk-forum-activity-avatar">
+                            <a href="#">
+                                <img src="{{ asset('assets/images/avatar-yas.jpg') }}" alt="{{ sujet.auteur.username }}">
+                            </a>
+                        </div>
+                        <div class="nk-forum-activity">
+                            <div class="nk-forum-activity-title" title="{{ sujet.auteur.username }}">
+                                <a href="#">{{ sujet.auteur.username }}</a>
+                            </div>
+                            <div class="nk-forum-activity-date">
+                                {{ sujet.dateCreation|date('d F Y') }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                {% else %}
+                    <li>Aucun résultat ne correspond à votre recherche.</li>
+                {% endif %}
             </ul>
             <!-- END: Forums List -->
 
+            <div class="nk-gap-2"></div>
+
+            <!-- START: Pagination -->
+
+            <!-- END: Pagination -->
+        </div>
+
         <div class="nk-gap-2"></div>
+
 
 
         <!-- START: Footer -->

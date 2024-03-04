@@ -3079,19 +3079,6 @@ img.rounded {
     text-align: center;
 }
 
-.nk-logo-top.nk-logo-top-light, .nk-logo-top.nk-logo-top-light.nk-logo-top-solid {
-    color: inherit;
-    background-color: rgba(255, 255, 255, 0.85);
-}
-
-.nk-logo-top.nk-logo-top-transparent {
-    background-color: transparent;
-}
-
-.nk-logo-top, .nk-logo-top.nk-logo-top-solid {
-    background-color: rgba(23, 30, 34, 0.75);
-}
-
 /* Contacts before Top Navbar */
 .nk-contacts-top {
     padding: 8px 0;
@@ -3224,6 +3211,10 @@ img.rounded {
 
 .nk-navbar .nk-nav-logo img {
     height: auto;
+}
+
+.search-bar {
+    display: inline-block;
 }
 
 .nk-navbar .nk-nav-icons {
@@ -3894,7 +3885,9 @@ img.rounded {
  -------------------------------------------------------------------*/
 .nk-footer {
     position: relative;
-    overflow: hidden;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     color: #eee;
     background-color: rgba(17, 22, 25, 0.8);
     z-index: 1;
@@ -3994,6 +3987,9 @@ img.rounded {
     }
     .nk-copyright .nk-copyright-right {
         padding-top: 0;
+    }
+    .nk-copyright-right{
+        display:none;
     }
 }
 
@@ -5191,18 +5187,18 @@ img.rounded {
 
 .nk-btn-color-main-1 {
     background-color: #7B2CBF;
-    border-color: #a5102c;
+    border-color: #fdc500;
     border-style: solid;
 }
 
 .nk-btn-color-main-1:hover, .nk-btn-color-main-1.hover {
-    background-color: #eb3154;
-    border-color: #ee526f;
+    background-color: #fdc500;
+    border-color: #fdc500;
 }
 
 .nk-btn-color-main-1:active, .nk-btn-color-main-1.active {
-    background-color: #ee526f;
-    border-color: #f1728a;
+    background-color: #fdc500;
+    border-color: #fdc500;
 }
 
 .nk-btn-color-main-1.nk-btn-outline {
@@ -5210,11 +5206,11 @@ img.rounded {
 }
 
 .nk-btn-color-main-1.nk-btn-outline:hover, .nk-btn-color-main-1.nk-btn-outline.hover {
-    color: #af112f;
+    color: #fdc500;
 }
 
 .nk-btn-color-main-1.nk-btn-outline:active, .nk-btn-color-main-1.nk-btn-outline.active {
-    color: #800d22;
+    color: #fdc500;
 }
 
 .nk-btn-color-main-2 {

@@ -1,6 +1,49 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+Moderateur:
+    path: /moderateur
+    controller: App\Controller\ModerateurController::index
+
+app_moderateur_modifier:
+    path: /moderateur/modifier/{id}
+    controller: App\Controller\ModerateurController::modifier
+    methods: ['GET', 'POST']
+
+app_moderateur_blocage:
+    path: '/moderateur/blocage/{id}'
+    controller: 'App\Controller\ModerateurController::blocage'
+    methods: ['POST']
+
 Forum:
     path: /forum
     controller: App\Controller\ForumController::index
+
+afficher_sujet:
+        path: /forum/sujet/{id}
+        controller: App\Controller\ForumController::afficherSujet
+
+ajouter_sujet:
+    path: /forum/ajouter-sujet
+    controller: App\Controller\ForumController::ajouterSujet
+    methods: ['GET', 'POST']
+
+ajouter_commentaire:
+    path: /forum/sujet/{id}/ajouter-commentaire
+    controller: App\Controller\ForumController::ajouterCommentaire
+    methods: ['POST']
+
+like_commentaire:
+    path: /forum/sujet/{sujetId}/commentaire/{id}/like
+    controller: App\Controller\ForumController::likeCommentaire
+    methods: ['GET']
+
+app_forum_signaler_sujet:
+    path: /forum/signaler/{id}
+    controller: App\Controller\ForumController::signalerSujet
+    methods: ['GET']
+
+search:
+    path: /forum/search
+    controller: App\Controller\ForumController::search
+

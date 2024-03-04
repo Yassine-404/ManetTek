@@ -168,15 +168,62 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="{{ path('Moderateur') }}" aria-expanded="false" aria-controls="ui-basic">
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <i class="icon-disc menu-icon"></i>
-                                <span class="menu-title">Sujets</span>
+                                <span class="menu-title">UI Elements</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/forms/basic_elements.html">
+                                <i class="icon-file menu-icon"></i>
+                                <span class="menu-title">Form elements</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('Moderateur') }}">
-                                <i class="icon-file menu-icon"></i>
-                                <span class="menu-title">Signalements</span>
+                            <a class="nav-link" href="pages/charts/chartjs.html">
+                                <i class="icon-pie-graph menu-icon"></i>
+                                <span class="menu-title">Charts</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/tables/basic-table.html">
+                                <i class="icon-command menu-icon"></i>
+                                <span class="menu-title">Tables</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/icons/feather-icons.html">
+                                <i class="icon-help menu-icon"></i>
+                                <span class="menu-title">Icons</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                                <i class="icon-head menu-icon"></i>
+                                <span class="menu-title">User Pages</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="auth">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/login-2.html"> Login 2 </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/register-2.html"> Register 2 </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/lock-screen.html"> Lockscreen </a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="docs/documentation.html">
+                                <i class="icon-book menu-icon"></i>
+                                <span class="menu-title">Documentation</span>
                             </a>
                         </li>
                     </ul>
@@ -185,50 +232,26 @@
             </nav>
             {% endblock %}
             <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="padding-top: 60px;">
-                {% block body %}
-                    <div class="col-sm-12 mb-4 mb-xl-0">
-                        <p class="font-weight-normal mb-2 text-muted">  </p>
-                        <h4 class="font-weight-bold text-dark">Bienvenue sur l'interface de modération</h4>
-                    </div>
-                    <div class="col-lg-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Liste des sujets</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>Titre</th>
-                                            <th>Contenu</th>
-                                            <th>Date de création</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for sujet in sujets %}
-                                            <tr>
-                                                <td>{{ sujet.titre }}</td>
-                                                <td>{{ sujet.contenu }}</td>
-                                                <td>{{ sujet.dateCreation|date('d/m/Y H:i:s') }}</td>
-                                                <td>
-                                                    <a href="{{ path('app_moderateur_modifier', {'id': sujet.id}) }}" class="btn btn-primary"><span class="fa fa-edit"></span></a>
-                                                    <a href="" class="btn btn-danger"><span class="fa fa-trash"></span></a>
-                                                    <form action="{{ path('app_moderateur_blocage', {'id': sujet.id}) }}" method="post">
-                                                        <button type="submit" class="btn btn-warning">
-                                                            <span class="fa fa-warning"></span>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{% block body %}
+    <div class="col-sm-12 mb-4 mb-xl-0">
+        <p class="font-weight-normal mb-2 text-muted">  </p>
+        <h4 class="font-weight-bold text-dark">Bienvenue sur l'interface de modération</h4>
+    </div>
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Liste des sujets</h4>
+                <div class="table-responsive">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
-                {% endblock %}
+{% endblock %}
             </main>
         </div>
     </div>
