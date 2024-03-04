@@ -1,11 +1,26 @@
-
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 {{ form_start(form) }}
 
-{{ form_row(form.nom, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
-{{ form_row(form.jeu, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
-{{ form_row(form.date ) }}
-{{ form_row(form.lieu, { 'attr': {'class': 'form-control required','style': 'width: 300px; height: 40px;'} }) }}
-{{ form_row(form.description, { 'attr': {'class': 'form-control required','style': 'width: 800px; height: 100px;'} }) }}
-    <button class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">{{ button_label|default('Save') }}</button>
+{{ form_row(form.nom, { 'attr': {'class': 'form-control required', 'style': 'width: 300px; height: 40px; border-radius: 10px;'} }) }}
+{{ form_row(form.jeu, { 'attr': {'class': 'form-control required', 'style': 'width: 300px; height: 40px; border-radius: 10px;'} }) }}
+{{ form_row(form.date) }}
+{{ form_row(form.lieu, { 'attr': {'class': 'form-control required', 'style': 'width: 300px; height: 40px; border-radius: 10px;'} }) }}
+{{ form_row(form.description, { 'attr': {'class': 'form-control required', 'style': 'width: 800px; height: 100px; border-radius: 10px;'} }) }}
+
+{# Ajout du champ pour le nombre de places disponibles #}
+{{ form_row(form.availableSlots, { 'attr': {'class': 'form-control required', 'style': 'width: 300px; height: 40px; border-radius: 10px;'} }) }}
+
+{# Ajout du champ pour le prix #}
+{{ form_row(form.prix, { 'attr': {'class': 'form-control required', 'style': 'width: 300px; height: 40px; border-radius: 10px;'} }) }}
+
+{# Ajout du champ pour l'upload de la vidéo en tant que bouton d'upload de fichier #}
+<div>
+    <input type="file" id="video" name="video" style="display: none;" accept="video/*">
+    <label for="video" class="btn btn-primary">Upload Video</label>
+</div>
+
+{# Ajout du champ pour l'image du tournoi en tant que bouton d'upload de fichier #}
+{{ form_widget(form.tournementImage, { 'attr': {'class': 'form-control', 'style': 'display: none;'} }) }}
+<label for="tournementImage" class="btn btn-primary">Upload Image</label>
+
+<button class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

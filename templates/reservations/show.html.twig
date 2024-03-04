@@ -3,24 +3,58 @@
 {% block title %}Reservations{% endblock %}
 
 {% block body %}
-    <h1>Reservations</h1>
+<style>
+    .table {
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        overflow: hidden;
+    }
+    .table th,
+    .table td {
+        font-size: 16px;
+        color: white;
+        padding: 10px;
+        border: none;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .table tbody tr {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+    .table thead th {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: grey;
+    }
+</style>
+<h1>Reservations</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reservation.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ reservation.date ? reservation.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ reservation.id }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ reservation.date ? reservation.date|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr> {# Ajoutez cette ligne pour afficher le niveau #}
+            <th>Niveau</th>
+            <td>{{ reservation.niveau }}</td>
+        </tr>
+        <tr> {# Ajoutez cette ligne pour afficher le niveau #}
+            <th>montant</th>
+            <td>{{ reservation.montant }}</td>
+        </tr>
+        <tr> {# Ajoutez cette ligne pour afficher le QR code basé sur l'ID de la réservation #}
+            <th>QR Code</th>
+            <td><img src="{{ path('qr_code_page', {'id': reservation.id}) }}" alt="QR Code"></td>
+        </tr>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_reservations_index') }}">back to list</a>
+<a href="{{ path('app_reservations_index') }}">back to list</a>
 
-    <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">edit</a>
+<a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">edit</a>
 
-    {{ include('reservations/_delete_form.html.twig') }}
+{{ include('reservations/_delete_form.html.twig') }}
 {% endblock %}

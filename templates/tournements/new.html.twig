@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Tournements{% endblock %}
+{% block title %}New Tournaments{% endblock %}
 
 {% block body %}
-    <h1>Create new Tournements</h1>
+    <h1>Create new Tournaments</h1>
 
-    {{ include('tournements/_form.html.twig') }}
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }} {# Ajoutez ceci pour gérer l'upload de fichiers #}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.jeu) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.lieu) }}
+        {{ form_row(form.prix) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.availableSlots) }}
+        {{ form_row(form.tournementImage, {'attr': {'class': 'form-control-file'}}) }} <!-- Champ pour télécharger l'image -->
+        <button type="submit" class="btn btn-primary">Create</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('app_tournements_index') }}">back to list</a>
 {% endblock %}

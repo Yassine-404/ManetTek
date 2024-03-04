@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\TournementsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,20 +24,35 @@ class Tournements
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le nom du tournoi ne peut pas être vide.")]
+    #[Assert\NotBlank(message: "Le nom du jeu ne peut pas être vide.")]
     private ?string $jeu = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime')]
     #[Assert\GreaterThan("now")]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le nom du tournoi ne peut pas être vide.")]
+    #[Assert\NotBlank(message: "Le lieu du tournoi ne peut pas être vide.")]
     private ?string $lieu = null;
-
+    
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le nom du tournoi ne peut pas être vide.")]
+    #[Assert\NotBlank(message: "La description du tournoi ne peut pas être vide.")]
     private ?string $description = null;
+
+    #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: "Le nombre de places disponibles ne peut pas être vide.")]
+    private ?int $availableSlots = null;
+
+    #[ORM\Column(type: 'float')]
+    #[Assert\NotBlank(message: "Le prix du tournoi ne peut pas être vide.")]
+    #[Assert\GreaterThan(value: 0, message: "Le prix doit être supérieur à zéro.")]
+    private ?float $prix = null;
+
+    #[ORM\Column(length: 255, nullable: true)] // Attribut pour l'image du tournoi
+    private ?string $tournementImage = null;
+
+    #[ORM\Column(length: 255, nullable: true)] // Attribut pour la vidéo du tournoi
+    private ?string $tournementVideo = null;
 
     #[ORM\OneToMany(targetEntity: Reservations::class, mappedBy: 'tournements', orphanRemoval: true)]
     private Collection $reservations;
@@ -113,8 +127,56 @@ class Tournements
         return $this;
     }
 
+    public function getAvailableSlots(): ?int
+    {
+        return $this->availableSlots;
+    }
+
+    public function setAvailableSlots(int $availableSlots): static
+    {
+        $this->availableSlots = $availableSlots;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): static
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getTournementImage(): ?string // Getter pour l'attribut image du tournoi
+    {
+        return $this->tournementImage;
+    }
+
+    public function setTournementImage(?string $tournementImage): self // Setter pour l'attribut image du tournoi
+    {
+        $this->tournementImage = $tournementImage;
+
+        return $this;
+    }
+
+    public function getTournementVideo(): ?string // Getter pour l'attribut vidéo du tournoi
+    {
+        return $this->tournementVideo;
+    }
+
+    public function setTournementVideo(?string $tournementVideo): self // Setter pour l'attribut vidéo du tournoi
+    {
+        $this->tournementVideo = $tournementVideo;
+
+        return $this;
+    }
+
     /**
-     * @return Collection<int, Reservations>
+     * @return Collection<int, Reservation>
      */
     public function getReservations(): Collection
     {
@@ -142,9 +204,9 @@ class Tournements
 
         return $this;
     }
-    public function __toString()
-{
-    return (string) $this->getId();
-}
 
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
 }

@@ -1,6 +1,40 @@
-/* PLACE YOU CUSTOM STYLES IN THIS FILE */
 
 
+/* Style pour la table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Style pour le titre */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Style pour le lien "Create new" */
+a.create-new-link {
+  display: block;
+  width: fit-content;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+a.create-new-link:hover {
+  background-color: #0056b3;
+}
 
 
 
@@ -9,7 +43,7 @@
     flex-direction: column;
     gap: 7px;
     position: relative;
-    color: white;
+    color: rgb(3, 3, 3);
   }
   
   .caseinput .label {

@@ -1,43 +1,153 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tournements index{% endblock %}
+{% block title %}Tournaments{% endblock %}
 
 {% block body %}
-    <h1>Tournements index</h1>
+    <style>
+        /* CSS pour les cards */
+        .card {
+            width: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid transparent; /* Ajout de la bordure */
+        }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Jeu</th>
-                <th>Date</th>
-                <th>Lieu</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tournement in tournements %}
-            <tr>
-                <td>{{ tournement.id }}</td>
-                <td>{{ tournement.nom }}</td>
-                <td>{{ tournement.jeu }}</td>
-                <td>{{ tournement.date ? tournement.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tournement.lieu }}</td>
-                <td>{{ tournement.description }}</td>
-                <td>
-                    <a href="{{ path('app_tournements_show', {'id': tournement.id}) }}">show</a>
-                    <a href="{{ path('app_tournements_edit', {'id': tournement.id}) }}">edit</a>
-                </td>
-            </tr>
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: pink; /* Couleur de la bordure rose */
+        }
+
+        .card:hover .card-content {
+            font-weight: bold; /* Texte en gras */
+        }
+
+        .card:hover .card-image {
+            height: 400px; /* Augmentation de la hauteur de l'image */
+        }
+
+        .card-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: height 0.3s ease; /* Transition de l'animation */
+        }
+
+        .card-content {
+            padding: 20px;
+            color: white;
+            transition: font-weight 0.3s ease; /* Transition pour le texte en gras */
+        }
+
+        /* Style des boutons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            width: 100%; /* Les boutons occupent toute la largeur */
+        }
+
+        .button {
+            flex: 1; /* Les boutons occupent toute la largeur de la card */
+            padding: 10px;
+            border: none;
+            border-radius: 0; /* Pas de bordure arrondie */
+            background-color: #b30047; /* Couleur rose foncée */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #ff7f7f; /* Couleur de fond rose plus clair au survol */
+            box-shadow: 0 4px 8px rgba(164, 36, 36, 0.5); /* Ombre légère */
+        }
+
+        /* Style pour les attributs */
+        .attribute {
+            font-weight: bold;
+            color: #ff7f7f; /* Couleur rose plus clair */
+        }
+
+        /* Le reste du CSS reste inchangé */
+        /* ... */
+        
+        /* CSS pour la barre de recherche */
+        .search-form {
+            position: relative; /* Positionnement relatif */
+            text-align: 100; /* Alignement à droite */
+            margin-top: 20px; /* Espacement par rapport à l'en-tête */
+            margin-bottom: 20px; /* Espacement par rapport aux cartes */
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 200px; /* Largeur de la barre de recherche */
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #b30047; /* Couleur rose foncée */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-form button:hover {
+            background-color: #ff7f7f; /* Couleur de fond rose plus clair au survol */
+            box-shadow: 0 4px 8px rgba(164, 36, 36, 0.5); /* Ombre légère */
+        }
+    </style>
+
+    <div class="search-form">
+        {# Formulaire de recherche de tournois par nom #}
+        <form method="get" action="{{ path('app_tournements_index') }}">
+            <input type="text" name="search" placeholder="Search by name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="row">
+        {% if tournaments is not empty %}
+            {% for tournament in tournaments %}
+                <div class="col-md-4">
+                    <div class="card">
+                        {% if tournament.tournementImage %}
+                            <img src="{{ asset('assets/images/' ~ tournament.tournementImage) }}" alt="Tournament Image" class="card-image">
+                        {% else %}
+                            <img src="{{ asset('assets/images/default-image.jpg') }}" alt="Default Image" class="card-image">
+                        {% endif %}
+                        <div class="card-content">
+                            <h3>{{ tournament.nom }}</h3>
+                            <p><span class="attribute">Jeu:</span> {{ tournament.jeu }}</p>
+                            <p><span class="attribute">Date:</span> {{ tournament.date ? tournament.date|date('Y-m-d H:i:s') : '' }}</p>
+                            <p><span class="attribute">Lieu:</span> {{ tournament.lieu }}</p>
+                            <p><span class="attribute">Prix:</span> {{ tournament.prix }}</p>
+                            <p><strong>Description:</strong> {{ tournament.description }}</p>
+                            <p><strong>Nombre de places disponibles:</strong> {{ tournament.availableSlots }}</p>
+                            <div class="button-group">
+                                <a href="{{ path('app_tournements_show', {'id': tournament.id}) }}" class="button">Show</a>
+                                <a href="{{ path('app_tournements_edit', {'id': tournament.id}) }}" class="button">Edit</a>
+                                {% if tournament.availableSlots > 0 %}
+                                    <a href="{{ path('app_reservations_new', {'id': tournament.id}) }}" class="button">Reservation</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_tournements_new') }}">Create new</a>
+            <p>No records found</p>
+        {% endif %}
+    </div>
+    <a href="{{ path('app_tournements_new') }}" class="button">Create new</a>
 {% endblock %}

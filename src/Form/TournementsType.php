@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Tournements;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType; // Ajout de cette ligne
+use Symfony\Component\Form\Extension\Core\Type\UrlType; // Ajout de cette ligne
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,6 +19,18 @@ class TournementsType extends AbstractType
             ->add('date')
             ->add('lieu')
             ->add('description')
+            ->add('availableSlots')
+            ->add('prix') // Ajout du champ pour le prix
+            ->add('tournementImage', FileType::class, [
+                'label' => 'Tournament Image',
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('tournementVideo', FileType::class, [
+                'label' => 'Tournament Video',
+                'mapped' => false,
+                'required' => false,
+            ])
         ;
     }
 

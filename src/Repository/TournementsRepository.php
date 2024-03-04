@@ -21,28 +21,49 @@ class TournementsRepository extends ServiceEntityRepository
         parent::__construct($registry, Tournements::class);
     }
 
-//    /**
-//     * @return Tournements[] Returns an array of Tournements objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Trouver les tournois avec des réservations.
+     *
+     * @return Tournements[] Les tournois avec des réservations
+     */
+    public function findWithReservations(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.reservations', 'r')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Tournements
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Recherche les tournois par nom.
+     *
+     * @param string $nom Le nom du tournoi à rechercher
+     * @return Tournements[] Les tournois correspondants au nom donné
+     */
+    public function findByNom(string $nom): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.nom LIKE :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Recherche les tournois par terme dans les champs pertinents.
+     *
+     * @param string $term Le terme de recherche
+     * @return Tournements[] Les tournois correspondants au terme de recherche
+     */
+    public function searchByTerm(string $term): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.nom LIKE :term')
+            ->orWhere('t.jeu LIKE :term')
+            ->orWhere('t.lieu LIKE :term')
+            ->orWhere('t.description LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+    }
 }

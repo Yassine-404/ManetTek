@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Tournements{% endblock %}
+{% block title %}Edit Tournaments{% endblock %}
 
 {% block body %}
-    <h1>Edit Tournements</h1>
+    <h1>Edit Tournaments</h1>
 
-    {{ include('tournements/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }} {# Ajoutez ceci pour gérer l'upload de fichiers #}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.jeu) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.lieu) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.availableSlots) }}
+        {{ form_row(form.prix) }} {# Champ pour le prix #}
+        {{ form_row(form.tournementImage, {'attr': {'class': 'form-control-file'}}) }} <!-- Champ pour télécharger l'image -->
+        <button type="submit" class="btn btn-primary">Update</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('app_tournements_index') }}">back to list</a>
-
     {{ include('tournements/_delete_form.html.twig') }}
 {% endblock %}

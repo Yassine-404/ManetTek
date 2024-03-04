@@ -1,3 +1,21 @@
+# config/routes.yaml
+
+# Routes pour le contrôleur de réservations
 controllers:
-    resource: ../src/Controller/
-    type: attribute
+    resource: '../src/Controller/'
+    type: annotation
+
+app_rating_index:
+    path: /rating
+    controller: App\Controller\RatingController::index
+    methods: GET
+
+app_tournement_show:
+    path: /tournements/{id}
+    controller: App\Controller\TournementsController::show
+    methods: GET
+
+app_tournaments_list: # Correction de l'orthographe ici
+    path: /tournaments/list
+    controller: App\Controller\TournementsController::list
+    methods: GET

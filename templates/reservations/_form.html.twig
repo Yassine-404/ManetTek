@@ -1,4 +1,17 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="bnk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{# templates/reservations/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block body %}
+    <h1>New Reservation</h1>
+
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.niveau) }}
+            {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <button class="bnk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

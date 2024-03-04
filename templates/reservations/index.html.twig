@@ -2,34 +2,67 @@
 
 {% block title %}Reservations index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    
+{% endblock %}
+
 {% block body %}
-    <h1>Reservations index</h1>
+<style>
+        .table {
+            border-collapse: separate; /* Séparer les bordures des cellules */
+            border-spacing: 0 10px; /* Espacement vertical entre les lignes */
+            overflow: hidden; /* Masquer le contenu débordant des cellules */
+        }
+        .table th,
+        .table td {
+            font-size: 16px; /* Taille de la police */
+            color: white; /* Couleur de la police */
+            padding: 10px; /* Espace à l'intérieur des cellules */
+            border: none; /* Supprimer la bordure par défaut */
+            background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond noir transparente */
+        }
+        .table tbody tr {
+            background-color: rgba(0, 0, 0, 0.3); /* Couleur de fond noir transparente pour chaque ligne du corps */
+        }
+        .table thead th {
+            background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond noir transparente pour l'en-tête */
+            color: grey; /* Couleur de texte grise pour l'en-tête */
+        }
+    </style>
+    <h1>Reservations</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Date</th>
-                <th>actions</th>
+                 <th>montant</th>
+
+                <th>Niveau</th>
+                <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
-        {% for reservation in reservations %}
+            {% for reservation in reservations %}
             <tr>
                 <td>{{ reservation.id }}</td>
                 <td>{{ reservation.date ? reservation.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">edit</a>
+                <td>{{ reservation.montant }}</td>
+
+               
+                <td>{{ reservation.niveau }}</td> {# Affichage du niveau de la réservation #}
+                 <td>
+                    <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">Show</a>
+                    <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">Edit</a>
                 </td>
             </tr>
-        {% else %}
+            {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">No records found</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_reservations_new') }}">Create new</a>
 {% endblock %}

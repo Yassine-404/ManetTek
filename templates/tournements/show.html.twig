@@ -1,42 +1,105 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tournements{% endblock %}
+{% block title %}Tournament Details{% endblock %}
 
 {% block body %}
-    <h1>Tournements</h1>
+    <style>
+        /* CSS pour le wrapper */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-top: 50px; /* Ajout de marge en haut */
+        }
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tournement.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ tournement.nom }}</td>
-            </tr>
-            <tr>
-                <th>Jeu</th>
-                <td>{{ tournement.jeu }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ tournement.date ? tournement.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Lieu</th>
-                <td>{{ tournement.lieu }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ tournement.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+        /* CSS pour la carte */
+        .card {
+            display: grid; /* Utiliser une grille CSS */
+            grid-template-columns: 1fr 2fr; /* Diviser la carte en deux colonnes */
+            gap: 20px; /* Espace entre les colonnes */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.5); /* Fond noir transparent */
+            color: white; /* Texte blanc */
+            width: 100%; /* Largeur de la carte */
+            height: auto; /* Hauteur automatique */
+        }
 
-    <a href="{{ path('app_tournements_index') }}">back to list</a>
+        .card-content {
+            padding: 30px; /* Augmenter la marge intérieure */
+            overflow-y: auto; /* Ajouter une barre de défilement vertical si le contenu dépasse */
+            width: 100%; /* Largeur de la colonne des détails */
+        }
 
-    <a href="{{ path('app_tournements_edit', {'id': tournement.id}) }}">edit</a>
+        .card-image {
+            width: 100%; /* Largeur de l'image */
+            height: auto; /* Hauteur automatique pour conserver les proportions */
+            object-fit: cover;
+        }
 
-    {{ include('tournements/_delete_form.html.twig') }}
+        .video-container {
+            width: 100%; /* Largeur de la vidéo */
+            height: auto; /* Hauteur automatique */
+            overflow: hidden;
+        }
+
+        .video {
+            width: 100%; /* Largeur de la vidéo */
+            height: auto; /* Hauteur automatique */
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Aligner les boutons les uns sous les autres */
+            align-items: center; /* Centrer horizontalement les boutons */
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 15px; /* Réduire le padding des boutons */
+            border: none;
+            border-radius: 5px;
+            background-color: #666; /* Vert foncé */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            width: 50%; /* Largeur des boutons */
+            margin-bottom: 10px; /* Espacement entre les boutons */
+        }
+
+        .button:hover {
+            background-color: #999; /* Vert plus clair au survol */
+        }
+    </style>
+
+    <div class="wrapper">
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ tournement.nom }}</h3>
+                <p><strong>Jeu:</strong> {{ tournement.jeu }}</p>
+                <p><strong>Date:</strong> {{ tournement.date ? tournement.date|date('Y-m-d H:i:s') : '' }}</p>
+                <p><strong>Lieu:</strong> {{ tournement.lieu }}</p>
+                <p><strong>Prix:</strong> {{ tournement.prix }}</p>
+                <p><strong>Description:</strong> {{ tournement.description }}</p>
+                <p><strong>Nombre de places disponibles:</strong> {{ tournement.availableSlots }}</p>
+                <div class="button-group">
+                    <a href="{{ path('app_tournements_index') }}" class="button">Back to list</a>
+                    <a href="{{ path('app_rating_new', {'iduser': 1, 'idtournement': tournement.id}) }}" class="button">Rate this tournament</a>
+                    <a href="{{ path('app_tournements_edit', {'id': tournement.id}) }}" class="button">Edit</a>
+                </div>
+            </div>
+            <div class="video-container">
+                {% if tournement.tournementVideo %}
+                    <video class="video" controls autoplay>
+                        <source src="{{ asset('assets/videos/' ~ tournement.tournementVideo) }}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

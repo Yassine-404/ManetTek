@@ -7,6 +7,7 @@ use App\Form\TournementsType;
 use App\Repository\TournementsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,10 +16,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TournementsController extends AbstractController
 {
     #[Route('/', name: 'app_tournements_index', methods: ['GET'])]
-    public function index(TournementsRepository $tournementsRepository): Response
+    public function index(Request $request, TournementsRepository $tournementsRepository): Response
     {
+        $searchTerm = $request->query->get('search');
+        
+        if ($searchTerm) {
+            $tournaments = $tournementsRepository->findByNom($searchTerm);
+        } else {
+            $tournaments = $tournementsRepository->findAll();
+        }
+
         return $this->render('tournements/index.html.twig', [
-            'tournements' => $tournementsRepository->findAll(),
+            'tournaments' => $tournaments,
         ]);
     }
 
@@ -30,8 +39,7 @@ class TournementsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($tournement);
-            $entityManager->flush();
+            $this->handleFormSubmission($form, $tournement, $entityManager);
 
             return $this->redirectToRoute('app_tournements_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -57,7 +65,7 @@ class TournementsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->handleFormSubmission($form, $tournement, $entityManager);
 
             return $this->redirectToRoute('app_tournements_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,5 +85,59 @@ class TournementsController extends AbstractController
         }
 
         return $this->redirectToRoute('app_tournements_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function handleFormSubmission($form, $tournement, $entityManager): void
+    {
+        // Gérer l'ajout de l'image du tournoi
+        $tournementImage = $form->get('tournementImage')->getData();
+        $this->uploadTournementImage($tournementImage, $tournement);
+
+        // Gérer l'ajout de la vidéo du tournoi
+        $tournementVideo = $form->get('tournementVideo')->getData();
+        $this->uploadTournementVideo($tournementVideo, $tournement);
+
+        $entityManager->persist($tournement);
+        $entityManager->flush();
+    }
+
+    private function uploadTournementImage($tournementImage, $tournement): void
+    {
+        if ($tournementImage) {
+            $fileName = uniqid().'.'.$tournementImage->guessExtension();
+
+            // Move the file to the directory where images are stored
+            try {
+                $tournementImage->move(
+                    $this->getParameter('tournement_images_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // Handle file upload exception
+            }
+
+            // Update the 'tournementImage' property of the Tournement entity
+            $tournement->setTournementImage($fileName);
+        }
+    }
+
+    private function uploadTournementVideo($tournementVideo, $tournement): void
+    {
+        if ($tournementVideo) {
+            $fileName = uniqid().'.'.$tournementVideo->guessExtension();
+
+            // Move the file to the directory where videos are stored
+            try {
+                $tournementVideo->move(
+                    $this->getParameter('tournement_videos_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // Handle file upload exception
+            }
+
+            // Update the 'tournementVideo' property of the Tournement entity
+            $tournement->setTournementVideo($fileName);
+        }
     }
 }

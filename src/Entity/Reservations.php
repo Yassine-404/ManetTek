@@ -17,12 +17,18 @@ class Reservations
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\GreaterThan("now")]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tournements $tournements = null;
+
+    #[ORM\Column(length: 20)]
+    #[Assert\Choice(choices: ['beginner', 'amateur', 'semi-pro', 'professional', 'world class', 'legendary'])]
+    private ?string $niveau = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $montant = null;
 
     public function getId(): ?int
     {
@@ -36,8 +42,7 @@ class Reservations
 
     public function setDate(\DateTimeInterface $date): static
     {
-        $this->date = $date;
-
+        $this->date = $date;***********************************************************
         return $this;
     }
 
@@ -49,7 +54,47 @@ class Reservations
     public function setTournements(?Tournements $tournements): static
     {
         $this->tournements = $tournements;
+        return $this;
+    }
 
+    public function getNiveau(): ?string
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?string $niveau): static
+    {
+        $this->niveau = $niveau;
+        return $this;
+    }
+
+    public function getMontant(): ?float
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(?float $montant): self
+    {
+        $this->montant = $montant;
         return $this;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Wassim@123@@WWo33 : stripe pdw 
+//wassimhajji11@gmail.com
+//username : wassim hajji
