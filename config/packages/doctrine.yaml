@@ -4,8 +4,8 @@ doctrine:
         host: 'localhost'
         port: '3306' # Assurez-vous que le port est correct
         dbname: 'manettek' # Nom de votre base de données
-        user: 'votre_nom_utilisateur' # Nom d'utilisateur MySQL
-        password: 'votre_mot_de_passe' # Mot de passe MySQL
+        user: 'root' # Nom d'utilisateur MySQL
+        password: '' # Mot de passe MySQL
         use_savepoints: true
     orm:
         auto_generate_proxy_classes: true

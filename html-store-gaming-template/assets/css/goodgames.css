@@ -5196,8 +5196,9 @@ img.rounded {
 }
 
 .nk-btn-color-main-1:hover, .nk-btn-color-main-1.hover {
-    background-color: #eb3154;
-    border-color: #ee526f;
+    background-color: #fdc500;
+    border-color: #fdc500;
+    color:#000;
 }
 
 .nk-btn-color-main-1:active, .nk-btn-color-main-1.active {
